@@ -1,0 +1,218 @@
+﻿@using UniPsg.Web.UI.PAS.Utility.Enums
+@model UniPsg.Model.PAS.ViewModels.ReviewerUpdateViewModel
+
+@{
+    ViewBag.Title = "員工自評維護";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<br />
+<h5>績效考核  &nbsp;&gt;&nbsp; <a href="@Url.Action("Index","Review")">員工自評</a> &nbsp;&gt;&nbsp; 員工自評維護 </h5>
+<center><h4>@ViewBag.Title</h4></center>
+<div class="form-horizontal">
+    <hr />
+    @using (Html.BeginForm("Update", "Review", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            <div class="col-md-10">
+                <center><h5>@Model.ProjectName</h5></center>
+                <center><h5>【適用對象：@Model.GroupName】</h5></center>
+                <center><h5>考核期間：@Model.ViewStarDate  &nbsp;&nbsp;至&nbsp;&nbsp;@Model.ViewEndDate </h5></center>
+            </div>
+        </div>
+        if (Model.GroupId == 4)
+        {
+            <div class="form-group">
+                <div class="col-md-10">
+                    <table cellpadding="2" class="table" cellspacing="2" border="1">
+                        <tr class="bg-primary">
+                            <th class="text-nowrap"> 分公司</th>
+                            <th class="text-nowrap"> 姓名</th>
+                            <th class="text-nowrap"> 職稱</th>
+                            <th class="text-nowrap"> 到職日</th>
+                        </tr>
+                        <tr class="btn-xs">
+                            <td>@Model.BranchName</td>
+                            <td>@Model.EmployeeName</td>
+                            <td>@Model.JobCapName</td>
+                            <td>@Model.StartDate</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+            if (Model.Reviews != null)
+            {
+                <div class="form-group">
+                    <div class="col-md-10">
+                        @Html.Label("Lable1", "I、工作目標達成狀況評核：")
+                    </div>
+                    <div class="col-md-10">
+                        <table cellpadding="2" class="table" cellspacing="2" border="1">
+                            <tr class="bg-primary">
+                                <th class="text-nowrap"> 分類</th>
+                                <th class="text-nowrap"> 項目</th>
+                                <th class="text-nowrap"> 比重(%)</th>
+                                <th class="text-nowrap"> 執行狀況說明<br />(EX:達成率)</th>
+                                <th class="text-nowrap"> 自我檢視(註1)</th>
+                            </tr>
+                            @for (int i = 0; i < Model.Reviews.Count(); i++)
+                            {
+                                <tr class="btn-xs">
+                                    <td>@Model.Reviews[i].KPICategoryId</td>
+                                    <td>@Model.Reviews[i].ItemName</td>
+                                    <td>@Model.Reviews[i].Weight</td>
+                                    <td>@Html.TextBoxFor(item => Model.Reviews[i].Rate, new { @class = "form-control" })</td>
+                                    <td>@Html.TextAreaFor(item => Model.Reviews[i].Comment, new { @class = "form-control" })</td>
+                                </tr>
+                            }
+
+                        </table>
+                        註1:工作目標達成或未達成之說明及工作心得與困難之描述
+                    </div>
+                </div>
+            }
+
+            if (Model.GroupId == 6)
+            {
+                <div class="form-group">
+                    <div class="col-md-10">
+                        <table cellpadding="2" class="table" cellspacing="2" border="1">
+                            <tr class="bg-primary">
+                                <th class="text-nowrap"> 部門碼</th>
+                                <th class="text-nowrap"> 科組</th>
+                                <th class="text-nowrap"> 員工編號</th>
+                                <th class="text-nowrap"> 姓名 </th>
+                                <th class="text-nowrap"> 到職日 </th>
+                                <th class="text-nowrap"> 職稱 </th>
+                                <th class="text-nowrap"> 最高學歷 </th>
+                            </tr>
+                            <tr class="btn-xs">
+                                <td>@Model.DeptCode</td>
+                                <td>@Model.TeamName</td>
+                                <td>@Model.EmployeeNo</td>
+                                <td>@Model.EmployeeName</td>
+                                <td>@Model.StartDate</td>
+                                <td>@Model.JobCapName</td>
+                                <td>@Model.Education</td>
+
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                if (Model.Reviews != null)
+                {
+                    <div class="form-group">
+                        <div class="col-md-10">
+                            @Html.Label("Lable1", "I、工作目標達成狀況評核：")
+                        </div>
+                        <div class="col-md-10">
+                            <table cellpadding="2" class="table" cellspacing="2" border="1">
+                                <tr class="bg-primary">
+                                    <th class="text-nowrap"> 分類</th>
+                                    <th class="text-nowrap"> 項目</th>
+                                    <th class="text-nowrap"> 比重(%)</th>
+                                    <th class="text-nowrap"> 執行狀況說明<br />(EX:達成率)</th>
+                                    <th class="text-nowrap"> 自我檢視(註1)</th>
+                                </tr>
+                                @for (int i = 0; i < Model.Reviews.Count(); i++)
+                                {
+                                    <tr class="btn-xs">
+                                        <td>@Model.Reviews[i].KPICategoryId</td>
+                                        <td>@Model.Reviews[i].ItemName</td>
+                                        <td>@Model.Reviews[i].Weight</td>
+                                        <td>@Html.TextBoxFor(item => Model.Reviews[i].Rate, new { @class = "form-control" })</td>
+                                        <td>@Html.TextAreaFor(item => Model.Reviews[i].Comment, new { @class = "form-control" })</td>
+                                    </tr>
+                                }
+
+                            </table>
+                            註1:工作目標達成或未達成之說明及工作心得與困難之描述
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <div class="form-group">
+                        <div class="col-md-10">
+                            @Html.Label("Lable1", "I、工作目標達成狀況評核：")
+                        </div>
+                        <div class="col-md-10">
+                            @Html.ActionLink("工作項目新增", "Create")
+                        </div>
+                    </div>
+
+                }
+            }
+            if (Model.GroupId == 7)
+            {
+                <div class="form-group">
+                    <div class="col-md-10">
+                        <table cellpadding="2" class="table" cellspacing="2" border="1">
+                            <tr class="bg-primary">
+                                <th class="text-nowrap"> 部門碼</th>
+                                <th class="text-nowrap"> 科組</th>
+                                <th class="text-nowrap"> 員工編號</th>
+                                <th class="text-nowrap"> 姓名 </th>
+                                <th class="text-nowrap"> 職稱 </th>
+                                <th class="text-nowrap"> 到職日 </th>
+                            </tr>
+                            <tr class="btn-xs">
+                                <td>@Model.DeptCode</td>
+                                <td>@Model.TeamName</td>
+                                <td>@Model.EmployeeNo</td>
+                                <td>@Model.EmployeeName</td>
+                                <td>@Model.JobCapName</td>
+                                <td>@Model.StartDate</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                if (Model.Reviews != null)
+                {
+                    <div class="form-group">
+                        <div class="col-md-10">
+                            @Html.Label("Lable1", "I、工作目標達成狀況評核：")
+                        </div>
+                        <div class="col-md-10">
+                            <table cellpadding="2" class="table" cellspacing="2" border="1">
+                                <tr class="bg-primary">
+                                    <th class="text-nowrap"> 分類</th>
+                                    <th class="text-nowrap"> 項目</th>
+                                    <th class="text-nowrap"> 比重(%)</th>
+                                    <th class="text-nowrap"> 執行狀況說明<br />(EX:達成率)</th>
+                                    <th class="text-nowrap"> 自我檢視(註1)</th>
+                                </tr>
+                                @for (int i = 0; i < Model.Reviews.Count(); i++)
+                                {
+                                    <tr class="btn-xs">
+                                        <td>@Model.Reviews[i].KPICategoryId</td>
+                                        <td>@Model.Reviews[i].ItemName</td>
+                                        <td>@Model.Reviews[i].Weight</td>
+                                        <td>@Html.TextBoxFor(item => Model.Reviews[i].Rate, new { @class = "form-control" })</td>
+                                        <td>@Html.TextAreaFor(item => Model.Reviews[i].Comment, new { @class = "form-control" })</td>
+                                    </tr>
+                                }
+
+                            </table>
+                            註1:工作目標達成或未達成之說明及工作心得與困難之描述
+                        </div>
+                    </div>
+                }
+            }
+        }
+    }
+    <div class="form-group">
+        <div class="col-md-10">
+            <center>
+                <a href="~/Review" class="btn btn-warning">不儲存退出</a>
+                <input type="submit" value="儲存" class="btn btn-success" />
+                @Html.HiddenFor(m => m.ProjectId)
+                @Html.HiddenFor(m => m.EmployeeNo)
+            </center>
+        </div>
+    </div>
+    }
+</div>
+
+

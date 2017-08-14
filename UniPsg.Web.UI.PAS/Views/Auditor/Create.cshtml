@@ -1,0 +1,52 @@
+﻿@model UniPsg.Model.PAS.ViewModels.AuditorViewModel
+
+
+@{
+    ViewBag.Title = "稽核與分公司維護新增";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<br />
+<h5><i class="fa fa-key" aria-hidden="true"> &nbsp;權限設定</i>  &nbsp;&gt;&nbsp; <a href="@Url.Action("Index","Auditor")">稽核與分公司維護</a>  &nbsp;&gt;&nbsp; 稽核與分公司維護新增 </h5>
+<center><h4>@ViewBag.Title</h4></center>
+<div class="form-horizontal">
+    <hr />
+    @using (Html.BeginForm("Create", "Auditor", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.BranchCode, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(m => m.BranchCode, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(m => m.BranchCode, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.Manager, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(m => m.Manager, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(m => m.Manager, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.Definition, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(m => m.Definition, new { @class = "form-control", @rows = "6" })
+                @Html.ValidationMessageFor(m => m.Definition, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <a href="~/Auditor" class="btn btn-warning">不儲存退出</a>
+                <input type="submit" value="儲存" class="btn btn-success" />
+                @Html.HiddenFor(m => m.Status, new { @Value = 0 })                
+                @Html.HiddenFor(m => m.Creator, new { @Value = @User.Identity.Name })
+                @Html.HiddenFor(m => m.Modifier, new { @Value = @User.Identity.Name })
+            </div>
+        </div>
+    }
+</div>
+
+

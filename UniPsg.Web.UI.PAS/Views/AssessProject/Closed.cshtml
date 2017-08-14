@@ -1,0 +1,77 @@
+﻿@using UniPsg.Web.UI.PAS.Utility.Enums
+@model UniPsg.Model.PAS.ViewModels.AssessProjectViewModel
+
+@{
+    ViewBag.Title = "考核專案結案";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<br />
+<h5><i class="fa fa-cog" aria-hidden="true"> &nbsp;設定管理</i>  &nbsp;&gt;&nbsp; <a href="@Url.Action("Index","AssessProject")">考核專案</a> &nbsp;&gt;&nbsp; 考核專案結案 </h5>
+<center><h4>@ViewBag.Title</h4></center>
+<div class="form-horizontal">
+    <hr />
+    @using (Html.BeginForm("Closed", "AssessProject", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        @*<div class="form-group">
+            @Html.LabelFor(m => m.Status, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(m => m.Status, new SelectList(
+                  new List<Object>{
+                       new { value = 0 , text = "啟用" },
+                       new { value = 1 , text = "停用" },
+                       new { value = 2 , text = "結案" }},
+                "value", "text"), "請選擇", new { @class = "form-control" })
+                <br />                
+                註：0為啟用、1為停用、2為結案。
+                @Html.ValidationMessageFor(m => m.Status, "", new { @class = "text-danger" })
+            </div>
+        </div>*@
+        <div class="form-group">
+            @Html.Label("主旨：", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+               @ViewBag.Suject
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.Label("內文：", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @ViewBag.Body
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <a href="~/AssessProject" class="btn btn-warning">不儲存退出</a>
+                <input type="submit" value="儲存並通知" class="btn btn-success" />
+                @Html.HiddenFor(m => m.Id)
+                @Html.HiddenFor(m => m.Name)
+                @Html.HiddenFor(m => m.ViewStarDate)
+                @Html.HiddenFor(m => m.ViewEndDate)
+                @Html.HiddenFor(m => m.FromDate)
+                @Html.HiddenFor(m => m.Deadline)
+                @Html.HiddenFor(m => m.AssessYear)
+                @Html.HiddenFor(m => m.TryDatae)
+                @Html.HiddenFor(m => m.CategoryId)
+                @Html.HiddenFor(m => m.Groups)
+                @Html.HiddenFor(m => m.Forms)
+                @Html.HiddenFor(m => m.Definition)
+                @Html.HiddenFor(m => m.Modifier, new { @Value = @User.Identity.Name })
+                @Html.HiddenFor(m => m.Status, new { @Value = 2 })
+                @Html.Hidden("subject" ,(object)ViewBag.Suject )
+                @Html.Hidden("projectName", (object)ViewBag.ProjectName)
+            </div>
+        </div>
+    }
+</div>
+
+@*<script>
+        $(document).ready(function () {
+            $("#ViewStarDate").datepicker({
+                dateFormat: "yymmdd"
+            });
+        });
+    </script>*@

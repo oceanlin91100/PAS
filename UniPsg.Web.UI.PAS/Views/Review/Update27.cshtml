@@ -1,0 +1,136 @@
+﻿@using UniPsg.Web.UI.PAS.Utility.Enums
+@model UniPsg.Model.PAS.ViewModels.ReviewerUpdateViewModel
+
+@{
+    ViewBag.Title = "員工自評維護";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<br />
+<h5>績效考核  &nbsp;&gt;&nbsp; <a href="@Url.Action("Index","Review")">員工自評</a> &nbsp;&gt;&nbsp; 員工自評維護 </h5>
+<div class="form-horizontal">
+    <hr />
+    @using (Html.BeginForm("Update17", "Review", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            <div class="col-md-10">
+                <center><h5>@Model.ProjectName</h5></center>
+                <center><h5>【適用對象：@Model.GroupName】</h5></center>
+                <center><h5>考核期間：@Helpers.GetShowDate(Model.ViewStarDate)  &nbsp;&nbsp;至&nbsp;&nbsp;@Helpers.GetShowDate(Model.ViewEndDate) </h5></center>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-10">
+                <table cellpadding="2" class="table" cellspacing="2" border="1">
+                    <tr class="btn-default">
+                        <th class="text-nowrap"> 部門碼</th>
+                        <th class="text-nowrap"> 科組</th>
+                        <th class="text-nowrap"> 員工編號</th>
+                        <th class="text-nowrap"> 姓名 </th>
+                        <th class="text-nowrap"> 職稱 </th>
+                        <th class="text-nowrap"> 到職日 </th>
+                    </tr>
+                    <tr class="btn-xs">
+                        <td>@Model.DeptCode</td>
+                        <td>@Model.TeamName</td>
+                        <td>@Model.EmployeeNo</td>
+                        <td>@Model.EmployeeName</td>
+                        <td>@Model.JobCapName</td>
+                        <td>@Helpers.GetShowDate(Model.StartDate)</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-10">
+                @Html.Label("Lable1", "I、獎懲狀況之加、減分：")
+            </div>
+            <div class="col-md-10">
+                <table cellpadding="2" class="table" cellspacing="2" border="1">
+                    <tr class="btn-default">
+                        <th class="text-nowrap"> 獎 </th>
+                        <th class="text-nowrap"> 懲 </th>
+                        <th class="text-nowrap"> 加減分 </th>
+                    </tr>
+                    <tr class="btn-xs">
+                        <td>大功&nbsp;0&nbsp;次&nbsp;&nbsp;小功&nbsp;0&nbsp;次&nbsp;&nbsp;嘉獎&nbsp;0&nbsp;次</td>
+                        <td>大過&nbsp;0&nbsp;次&nbsp;&nbsp;小過&nbsp;0&nbsp;次&nbsp;&nbsp;警告&nbsp;0&nbsp;次</td>
+                        <td>0.00</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-10">
+                @Html.Label("Lable2", "I、工作目標達成狀況評核(KPI)：總分100分，佔比70%。") &nbsp;&nbsp;
+                <a href="@Url.Action("Create", "ProjectReview", new { projectId = Model.ProjectId , employeeNo = Model.EmployeeNo, reviewer = Model.Reviewer , scopeId = 2, KPICategoryId =13,itemId = 55})" class="btn btn-link"> 新增 </a>
+            </div>
+            <div class="col-md-10">
+                <table cellpadding="2" class="table" cellspacing="2" border="1">
+                    <tr class="btn-default">
+                        <th class="text-nowrap"> 工作要項及目標<br />請將年度工作目標及職責，分項重點描述之。</th>
+                        <th class="text-nowrap"> 比重</th>
+                        <th class="text-nowrap"> 達成率%</th>
+                        <th class="text-nowrap"> 分數</th>
+                        <th class="text-nowrap"> 自我檢視<br />工作目標達成或未達成之說明及工作心得與困難之描述</th>
+                        <th class="text-nowrap"> </th>
+                    </tr>
+                    @if (Model.Reviews != null)
+                    {
+                        foreach (var item in Model.Reviews)
+                        {
+                            <tr class="btn-sm">
+                                <td>@item.ItemName</td>
+                                <td>@item.Rate</td>
+                                <td>@item.Comment</td>
+                                <td align="center" width="15%">
+                                    <a onclick="return confirm('Do you want to Delete?')" href="@Url.Action("Delete", "ProjectReview", new { id = item.Id, projectId = Model.ProjectId, employeeNo = Model.EmployeeNo })"> 刪除 </a>
+                                    &nbsp;||&nbsp; <a href="@Url.Action("Edit", "ProjectReview", new { id = item.Id, projectId = Model.ProjectId, employeeNo = Model.EmployeeNo })"> 修改 </a>
+
+                                </td>
+                            </tr>
+                        }
+                    }
+                </table>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-10">
+                @Html.Label("Lable3", "III、核心職能：")
+            </div>
+            <div class="col-md-10">
+                <table cellpadding="2" class="table" cellspacing="2" border="1">
+                    <tr class="btn-default">
+                        <th class="text-nowrap"> 請參閱附件一核心職能評量表，完成後請將總分謄寫至自我考評欄位。(總分100分，佔比20分%) </th>
+                        <th class="text-nowrap"> 自我考評分數 </th>
+                        <th class="text-nowrap"> 主管核定分數 </th>
+                    </tr>
+                    <tr class="btn-xs">
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                        <td>&nbsp;</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-10">
+                <center>
+                    <a href="@Url.Action("Update17", "Review", new { projectId = Model.ProjectId , employeeNo = Model.EmployeeNo, reviewer = Model.Reviewer })" class="btn btn-default"> 送審 </a>
+                    @Html.HiddenFor(model => model.ProjectId)
+                    @Html.HiddenFor(model => model.EmployeeNo)
+                    @Html.HiddenFor(model => model.Reviewer)
+                    <a href="/Review" class="btn btn-warning">不儲存退出</a>
+                </center>
+            </div>
+        </div>
+    }
+</div>
+
+
+
+

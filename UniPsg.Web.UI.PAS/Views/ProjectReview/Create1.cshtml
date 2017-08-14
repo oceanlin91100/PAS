@@ -1,0 +1,121 @@
+﻿@model UniPsg.Model.PAS.ViewModels.ProjectReviewViewModel
+
+@{
+    ViewBag.Title = "工作目標達成狀況(KPI)新增";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<br />
+<h5><i class="fa fa-line-chart" aria-hidden="true">&nbsp;績效考核</i>  &nbsp;&gt;&nbsp; <a href="@Url.Action("Index","Review")">員工自評</a>  &nbsp;&gt;&nbsp;工作目標達成狀況(KPI)新增 </h5>
+<center><h4>@ViewBag.Title</h4></center>
+<div class="form-horizontal">
+    <hr />
+    @using (Html.BeginForm("Create1", "ProjectReview", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        @Html.HiddenFor(model => model.ProjectId)
+        @Html.HiddenFor(model => model.EmployeeNo)
+        @Html.HiddenFor(model => model.Reviewer)
+        @Html.HiddenFor(model => model.ScopeId)
+        @Html.HiddenFor(model => model.ItemId)
+        @Html.HiddenFor(model => model.KPICategoryId)
+        @Html.HiddenFor(model => model.Weight, new { htmlAttributes = new { @Value = 0 } })
+
+
+        <div class="form-group">
+            工作要項及目標：請將年度工作目標及職責，分項重點描述之。　<br />
+            @ViewBag.ScopItem：@ViewBag.Definition
+            <br />
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.ItemName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(model => model.ItemName, new { @class = "form-control", @rows = "6", @Value = "", @id = "ItemName1" })
+                @Html.ValidationMessageFor(model => model.ItemName, "", new { @class = "text-danger" })
+                <br />
+                註：最多輸入125個中文字。
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Rate, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <div>(EX:達成率等)</div>
+                @Html.EditorFor(model => model.Rate, new { htmlAttributes = new { @class = "form-control", @id = "Rate1" } })
+                @Html.ValidationMessageFor(model => model.Rate, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(model => model.Comment, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <div>工作目標達成或未達成之說明及工作心得與困難之描述</div>
+                @Html.TextAreaFor(model => model.Comment, new { @class = "form-control", @rows = "6", @Value = "", @id = "Comment1" })
+                @Html.ValidationMessageFor(model => model.Comment, "", new { @class = "text-danger" })
+                <br />
+                註：最多輸入300個中文字。
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <a href="~/Review/Update1?projectId=@ViewBag.Project&employeeNo=@ViewBag.Employee" class="btn btn-warning">不儲存退出</a> &nbsp; &nbsp;
+                <input type="submit" value="儲存" class="btn btn-success" onclick="return checkData();" />
+                @Html.HiddenFor(m => m.Status, new { @Value = 0 })
+                @Html.HiddenFor(m => m.Creator, new { @Value = @User.Identity.Name })
+                @Html.HiddenFor(m => m.Modifier, new { @Value = @User.Identity.Name })
+            </div>
+        </div>
+    }
+</div>
+
+
+<script type="text/javascript">
+    function checkData() {
+
+        if (document.getElementById('ItemName1').value == 0) {
+            alert("請輸入工作項目!");
+            document.getElementById('ItemName1').focus();
+            return false;
+        }
+
+        var value = document.getElementById('ItemName1').value;
+        if (value.length > 126) {
+            alert("最多輸入125個中文字。");
+            document.getElementById('ItemName1').focus();
+            return false;
+        }
+
+        var x = document.getElementById('Rate1').value;
+        if (isNaN(x)) {
+            alert("達成率必需是數字!");
+            return false;
+        }
+
+        if (document.getElementById('Rate1').value > 100) {
+            alert("達成率必需是大於0小於100的數字!");
+            return false;
+        }
+
+        if (document.getElementById('Rate1').value == 0) {
+            alert("請輸入大於零的達成率字數!");
+            document.getElementById('Rate1').focus();
+            return false;
+        }
+
+        if (document.getElementById('Comment1').value == "") {
+            alert("請輸入自評!");
+            document.getElementById('Comment1').focus();
+            return false;
+        }
+
+        var value = document.getElementById('Comment1').value;
+        if (value.length > 301) {
+            alert("最多輸入300個中文字。");
+            document.getElementById('Comment1').focus();
+            return false;
+        }
+    }
+</script>
+
+
+

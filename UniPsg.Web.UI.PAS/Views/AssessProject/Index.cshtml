@@ -1,0 +1,101 @@
+﻿@using PagedList.Mvc;
+@model UniPsg.Web.UI.PAS.Models.AssessProjectIndexView
+
+@{
+    ViewBag.Title = "考核專案清單";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<br />
+<h5><i class="fa fa-cog" aria-hidden="true"> &nbsp;設定管理</i>  &nbsp;&gt;&nbsp; <a href="@Url.Action("Index","AssessProject")">考核專案</a></h5>
+<center><h4>@ViewBag.Title</h4></center>
+<div class="form-horizontal">
+
+    <div align="left"><i class="fa fa-plus" aria-hidden="true"><a href="@Url.Action("Create", "AssessProject")">&nbsp;考核專案新增 </a></i></div>
+    <table cellpadding="2" class="table" cellspacing="2" border="1">
+        <tr class="bg-primary">
+            <th class="text-nowrap"> Id</th>
+            <th class="text-nowrap"> @Html.ActionLink("名稱", "Index", new { sortOrder = ViewBag.NameSortParm }, new { @class = "label label-primary" }) </th>
+            <th class="text-nowrap"> 考核檢視期間</th>
+            <th class="text-nowrap"> 考核作業期間</th>
+            <th class="text-nowrap"> 年度</th>
+            <th class="text-nowrap"> 受考核對象</th>
+            @*<th class="text-nowrap"> 適用考核表</th>*@
+            <th class="text-nowrap"> 狀態</th>
+            <th class="text-nowrap"> @Html.ActionLink("修改時間", "Index", new { sortOrder = ViewBag.DateSortParm }, new { @class = "label label-primary" }) </th>
+            <th class="text-nowrap"> </th>
+
+        </tr>
+        @if (Model.Projects != null)
+        {
+            foreach (var item in Model.Projects)
+            {
+                <tr class="btn-sm">
+                    <td>@item.Id</td>
+                    <td>@item.Name</td>
+                    <td>@item.ViewStarDate ~ @item.ViewEndDate</td>
+                    <td>@item.FromDate ~ @item.Deadline</td>
+                    <td>@item.AssessYear</td>
+                    <td>@item.Groups</td>
+                    @*<td>@item.Forms</td>*@
+                    <td>@Helpers.GetStatusDisplayName(item.Status)</td>
+                    <td>@item.ModifiedDate.ToString()</td>
+                    @if (ViewBag.Role == "HRAdmin" || ViewBag.Role == "SysAdmin")
+                    {
+                        <td align="center" width="30%">
+
+                            <i class="fa fa-trash-o" aria-hidden="true"><a onclick="return confirm('Do you want to Delete?')" href="@Url.Action("Delete", "AssessProject", new { id = item.Id })"> 刪除 </a></i>
+
+                            &nbsp;|| &nbsp;
+                            <i class="fa fa-pencil" aria-hidden="true"><a href="@Url.Action("Edit", "AssessProject", new { id = item.Id })"> 修改 </a></i>
+
+                            &nbsp;|| &nbsp;
+                            <i class="fa fa-info" aria-hidden="true"><a href="@Url.Action("Detail", "AssessProject", new { id = item.Id })"> 檢視 </a></i>
+
+                            &nbsp;|| &nbsp;
+
+                            <i class="fa fa-building-o" aria-hidden="true"><a href="@Url.Action("Imports", "Organization", new { projectId = item.Id })"> 匯入組織 </a></i>
+
+                            <br />
+
+                            <i class="fa fa-address-card-o" aria-hidden="true"><a href="@Url.Action("Imports", "AssessPerson", new { projectId = item.Id })"> 匯入人員 </a></i>
+
+                            &nbsp;|| &nbsp;
+
+                            <i class="fa fa-file-excel-o fa"><a href="@Url.Action("Export", "AssessPerson", new { projectId = item.Id, All = "Y" })"> 匯出人員 </a></i>
+                            &nbsp;|| &nbsp;
+
+                            <i class="fa fa-child" aria-hidden="true"><a href="@Url.Action("List", "AssessPerson", new { projectId = item.Id })"> 考核人員檢視 </a></i>
+
+                            <br />
+
+                            <i class="fa fa-envelope-o" aria-hidden="true"><a href="@Url.Action("Opened", "AssessProject", new { id = item.Id })"> 啟動 </a></i>
+
+                            &nbsp;|| &nbsp;
+
+                            <i class="fa fa-envelope-o" aria-hidden="true"><a href="@Url.Action("Notice", "AssessPerson", new { projectId = item.Id })"> 未核定 </a></i>
+
+                            &nbsp;|| &nbsp;
+
+                            <i class="fa fa-clone" aria-hidden="true"><a href="@Url.Action("Closed", "AssessProject", new { id = item.Id })"> 結案 </a></i>
+
+                        </td>
+                    }
+                    else
+                    {
+                        <td align="center" width="30%">
+                            <i class="fa fa-child" aria-hidden="true"><a href="@Url.Action("List", "AssessPerson", new { projectId = item.Id })"> 考核人員檢視 </a></i>
+                            &nbsp;|| &nbsp;
+
+                            <i class="fa fa-envelope-o" aria-hidden="true"><a href="@Url.Action("Notice", "AssessPerson", new { projectId = item.Id })"> 未核定 </a></i>
+                        </td>
+
+                    }
+
+                </tr>
+            }
+        }
+    </table>
+    <div class="pager">
+        @Html.PagedListPager(Model.Projects, page => Url.Action("Index", new { page }))
+    </div>
+</div>

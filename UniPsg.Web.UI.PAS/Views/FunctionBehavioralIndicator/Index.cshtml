@@ -1,0 +1,45 @@
+﻿@model IEnumerable<UniPsg.Model.PAS.ViewModels.FunctionBehavioralIndicatorViewModel>
+@{
+    ViewBag.Title = "行為指標清單";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<br />
+<h5><i class="fa fa-cog" aria-hidden="true"> &nbsp;設定管理</i>  &nbsp;&gt;&nbsp; <a href="@Url.Action("Index","FunctionBehavioralIndicator")">行為指標</a></h5>
+<center><h4>@ViewBag.Title</h4></center>
+<div align="left"><i class="fa fa-plus" aria-hidden="true"><a href="@Url.Action("Create","FunctionBehavioralIndicator")"> 行為指標新增 </a></i></div>
+<div class="form-horizontal">
+    <table cellpadding="2" class="table" cellspacing="2" border="1">
+        <tr class="btn-primary">
+            <th> Id</th>
+            <th> 考核項目Id</th>
+            <th> 定義說明</th>
+            <th> 狀態</th>
+            <th> 建立者</th>
+            <th> 建立時間</th>
+            <th> 修改者</th>
+            <th> 修改時間</th>
+            <th> </th>
+        </tr>
+        @if (ViewBag.ListClients != null)
+        {
+            foreach (var item in ViewBag.ListClients)
+            {
+                <tr class = "btn-sm">
+                    <td>@item.Id</td>
+                    <td>@item.ItemId</td>
+                    <td>@item.Definition</td>
+                    <td>@Helpers.GetStatusDisplayName(item.Status)</td>
+                    <td>@item.Creator</td>
+                    <td>@item.CreatedDate.ToString()</td>
+                    <td>@item.Modifier</td>
+                    <td>@item.ModifiedDate.ToString()</td>
+                    <td>
+                        <i class="fa fa-trash-o" aria-hidden="true"><a onclick="return confirm('Do you want to Delete?')" href="@Url.Action("Delete", "FunctionBehavioralIndicator", new { id = item.Id })"> 刪除 </a></i>
+                        &nbsp;||&nbsp; <i class="fa fa-pencil" aria-hidden="true"><a href="@Url.Action("Edit", "FunctionBehavioralIndicator", new { id = item.Id })"> 修改 </a></i>
+                        &nbsp;|| &nbsp;<i class="fa fa-info" aria-hidden="true"><a href="@Url.Action("Detail", "FunctionBehavioralIndicator", new { id = item.Id })"> 檢視 </a></i>
+                    </td>
+                </tr>
+            }
+        }
+    </table>
+</div>

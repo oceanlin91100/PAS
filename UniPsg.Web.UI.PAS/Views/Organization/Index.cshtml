@@ -1,0 +1,79 @@
+﻿@using PagedList.Mvc;
+@model UniPsg.Web.UI.PAS.Models.OrganizationIndexView
+
+@{
+    ViewBag.Title = "組織流程清單";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<br />
+<h5><i class="fa fa-cog" aria-hidden="true"> &nbsp;設定管理</i>  &nbsp;&gt;&nbsp; <a href="@Url.Action("Index", "Organization")">組織流程</a></h5>
+<center><h4>@ViewBag.Title</h4></center>
+<div class="form-horizontal">
+    <div align="left"><i class="fa fa-plus" aria-hidden="true"><a href="@Url.Action("Create", "Organization")"> 組織流程新增 </a></i></div>
+    @using (Html.BeginForm("Index", "Organization", FormMethod.Post))
+    {
+
+        <div class="form-group">
+            @*<div class="col-md-2 text-right"> 查詢條件：
+                   @Html.Label("Lable1", "", new { @class = "text right" })
+                </div>*@
+            <div class="col-md-2">
+                @Html.DropDownListFor(m => m.ProjectId, new SelectList(ViewBag.Projects, "Id", "Name"), "請選擇", new { @class = "form-control" })
+            </div>
+            <div class="col-md-2">
+                @Html.DropDownListFor(m => m.BranchCode, new SelectList(ViewBag.Branches, "BranchCode", "BranchName"), "請選擇", new { @class = "form-control" })
+            </div>
+            <div class="col-md-2">
+                @Html.DropDownListFor(m => m.DeptCode, new SelectList(ViewBag.Depts, "DeptCode", "DeptName"), "請選擇", new { @class = "form-control" })
+            </div>
+            <div class="col-md-2">
+                @Html.TextBoxFor(m => m.EmployeeNo, new { @class = "form-control" })
+            </div>
+            <div class="col-md-1">
+                <input type="submit" value="Search" class="btn btn-default" />
+            </div>
+        </div>
+
+    }
+    <table cellpadding="2" class="table" cellspacing="2" border="1">
+        <tr class="bg-primary">
+            <th class="text-nowrap"> 專案名稱 </th>
+            <th class="text-nowrap"> @Html.ActionLink("員工姓名", "Index", new { sortOrder = ViewBag.NameSortParm }, new { @class = "label label-primary" }) </th>
+            <th class="text-nowrap"> @Html.ActionLink("部門別", "Index", new { sortOrder = ViewBag.BrachSortParm }, new { @class = "label label-primary" }) </th>
+            <th class="text-nowrap"> @Html.ActionLink("科組別", "Index", new { sortOrder = ViewBag.DeptSortParm }, new { @class = "label label-primary" }) </th>            
+            <th class="text-nowrap"> 上層主管姓名</th>
+            <th class="text-nowrap"> 簽核流程</th>
+            <th class="text-nowrap"> 狀態</th>            
+            <th class="text-nowrap"> @Html.ActionLink("修改時間", "Index", new { sortOrder = ViewBag.DateSortParm }, new { @class = "label label-primary" }) </th>
+            <th class="text-nowrap"> </th>
+        </tr>
+        @if (Model.Organizations != null)
+        {
+            foreach (var item in Model.Organizations)
+            {
+                <tr class="btn-sm">
+                    <td>@item.ProjectName</td>
+                    <td>@item.EmployeeName</td>
+                    <td>@item.BranchName</td>
+                    <td>@item.DeptName</td>
+                    <td>@item.ManageName</td>
+                    <td>@item.NamePath</td>
+                    <td>@Helpers.GetStatusDisplayName(item.Status)</td>
+                    <td>@item.ModifiedDate.ToString()</td>
+                    <td align="center" width="15%">
+                        <i class="fa fa-trash-o" aria-hidden="true"><a onclick="return confirm('Do you want to Delete?')" href="@Url.Action("Delete", "Organization", new { projectId = item.ProjectId, employeeNo = item.EmployeeNo})"> 刪除 </a></i>
+                        &nbsp;||&nbsp; <i class="fa fa-pencil" aria-hidden="true"><a href="@Url.Action("Edit", "Organization",new { projectId = item.ProjectId, employeeNo = item.EmployeeNo})"> 修改 </a></i>
+                        &nbsp;|| &nbsp;<i class="fa fa-info" aria-hidden="true"><a href="@Url.Action("Detail", "Organization",new { projectId = item.ProjectId, employeeNo = item.EmployeeNo})"> 檢視 </a></i>
+                        <br/>
+                        <i class="fa fa-info" aria-hidden="true"><a href="@Url.Action("Account", "Organization",new { projectId = item.ProjectId, employeeNo = item.EmployeeNo})"> 上層主管修改 </a></i>
+                    </td>
+                </tr>
+            }
+        }
+    </table>
+    <div class="pager">
+        @Html.PagedListPager(Model.Organizations, page => Url.Action("Index", new { page, sortOrder = ViewBag.CurrentSort, projectId = ViewBag.CurrentProjectId, branchCode = ViewBag.CurrentBranchCode, deptCode = ViewBag.CurrentDeptCode }))
+    </div>
+</div>
+

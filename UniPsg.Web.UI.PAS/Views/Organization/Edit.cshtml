@@ -1,0 +1,142 @@
+﻿@using UniPsg.Web.UI.PAS.Utility.Enums
+@model UniPsg.Model.PAS.ViewModels.OrganizationViewModel
+
+@{
+    ViewBag.Title = "組織流程修改";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<br />
+<h5><i class="fa fa-cog" aria-hidden="true"> &nbsp;設定管理</i>  &nbsp;&gt;&nbsp; <a href="@Url.Action("Index","Organization")">組織流程</a> &nbsp;&gt;&nbsp; 組織流程修改 </h5>
+<center><h4>@ViewBag.Title</h4></center>
+<div class="form-horizontal">
+    <hr />
+    @using (Html.BeginForm("Edit", "Organization", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.ProjectName, new { @class = "control-label col-md-2" })
+            <div class="col-md-3">
+                @Html.DropDownListFor(m => m.ProjectId, new SelectList(ViewBag.Projects, "Id", "Name"), new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.ProjectId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.EmployeeName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(m => m.EmployeeName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(m => m.EmployeeName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.Account, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(m => m.Account, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(m => m.Account, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.BranchCode, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-3">
+                @Html.EditorFor(m => m.BranchCode, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(m => m.BranchCode, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-md-3">
+                @Html.EditorFor(m => m.BranchName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(m => m.BranchName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.DeptCode, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-3">
+                @Html.EditorFor(m => m.DeptCode, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(m => m.DeptCode, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-md-3">
+                @Html.EditorFor(m => m.DeptName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(m => m.DeptName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.TeamName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-3">
+                @Html.EditorFor(m => m.TeamCode, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(m => m.TeamCode, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-md-3">
+                @Html.EditorFor(m => m.TeamName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(m => m.TeamName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.ManagerNo, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-3">
+                @Html.EditorFor(m => m.ManagerNo, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(m => m.ManagerNo, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-md-3">
+                @Html.EditorFor(m => m.ManageName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(m => m.ManageName, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-md-3">
+                @Html.EditorFor(m => m.ManageAccount, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(m => m.ManageAccount, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.FlowPath, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-3">
+                @Html.TextAreaFor(m => m.FlowPath, new { @class = "form-control", @rows = "6" })
+                <br />
+                例如: 01012,84182,87188,87161 為完整的輸入流程。
+                @Html.ValidationMessageFor(m => m.FlowPath, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-md-3">
+                @Html.TextAreaFor(m => m.NamePath, new { @class = "form-control", @rows = "6" })
+                <br />
+                例如: 吳淑娟(01012),林慶瑞(84182),胡懿德(87188),林榮輝(87161) 為完整的輸入流程。
+                @Html.ValidationMessageFor(m => m.NamePath, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.Status, new { @class = "control-label col-md-2" })
+            <div class="col-md-3">
+                @Html.DropDownListFor(m => m.Status, new SelectList(
+                  new List<Object>{
+                       new { value = 0 , text = "啟用" },
+                       new { value = 1 , text = "停用" }},
+                  "value", "text"), "請選擇", new { @class = "form-control" })
+                <br />
+                註：0為啟用、1為停用。
+                @Html.ValidationMessageFor(m => m.Status, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <a href="~/Organization" class="btn btn-warning">不儲存退出</a>
+                <input type="submit" value="儲存" class="btn btn-success" />
+                @Html.HiddenFor(m => m.ProjectId)
+                @Html.HiddenFor(m => m.EmployeeNo)
+                @Html.HiddenFor(m => m.Modifier, new { @Value = @User.Identity.Name })                
+            </div>
+        </div>
+    }
+</div>
+
+@*<script>
+        $(document).ready(function () {
+            $("#ViewStarDate").datepicker({
+                dateFormat: "yymmdd"
+            });
+        });
+    </script>*@
+
+
+

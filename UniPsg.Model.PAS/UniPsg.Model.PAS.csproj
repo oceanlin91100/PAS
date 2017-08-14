@@ -1,0 +1,130 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{F87EA685-6215-4367-B193-C88A95710967}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>UniPsg.Model.PAS</RootNamespace>
+    <AssemblyName>UniPsg.Model.PAS</AssemblyName>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AS400\ASSPACAT.cs" />
+    <Compile Include="AS400\ASSPAFORG.cs" />
+    <Compile Include="AS400\ASSPAFORM.cs" />
+    <Compile Include="AS400\ASSPAGROUP.cs" />
+    <Compile Include="AS400\ASSPAPOSN.cs" />
+    <Compile Include="AS400\ASSPAPRJ.cs" />
+    <Compile Include="AS400\ASSPARANK.cs" />
+    <Compile Include="AS400\ASSPASCOPE.cs" />
+    <Compile Include="AS400\ASSPAUD.cs" />
+    <Compile Include="AS400\ASSPFUNBI.cs" />
+    <Compile Include="AS400\ASSPFWLG.cs" />
+    <Compile Include="AS400\ASSPITEM.cs" />
+    <Compile Include="AS400\ASSPKPICAT.cs" />
+    <Compile Include="AS400\ASSPMENU.cs" />
+    <Compile Include="AS400\ASSPPRRV.cs" />
+    <Compile Include="AS400\ASSPRMMAP.cs" />
+    <Compile Include="AS400\ASSPROLE.cs" />
+    <Compile Include="AS400\ASSPRUMAP.cs" />
+    <Compile Include="AS400\ASSPSCORE.cs" />
+    <Compile Include="AS400\ASSPWEIGHT.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\AssessCategoryViewModel.cs" />
+    <Compile Include="ViewModels\AssessFormViewModel.cs" />
+    <Compile Include="ViewModels\AssessGroupViewModel.cs" />
+    <Compile Include="ViewModels\AssessPersonViewModel.cs" />
+    <Compile Include="ViewModels\AssessProjectViewModel.cs" />
+    <Compile Include="ViewModels\AssessRankingViewModel.cs" />
+    <Compile Include="ViewModels\AssessScopeViewModel.cs" />
+    <Compile Include="ViewModels\AuditorViewModel.cs" />
+    <Compile Include="ViewModels\BranchViewModel.cs" />
+    <Compile Include="ViewModels\DepartmentViewModel.cs" />
+    <Compile Include="ViewModels\EmployeeNameViewModel.cs" />
+    <Compile Include="ViewModels\EmployeeType.cs" />
+    <Compile Include="ViewModels\FlowLogViewModel.cs" />
+    <Compile Include="ViewModels\FormWeightViewModel.cs" />
+    <Compile Include="ViewModels\FunctionBehavioralIndicatorViewModel.cs" />
+    <Compile Include="ViewModels\HBPDUTViewModel.cs" />
+    <Compile Include="ViewModels\InstantMailModel.cs" />
+    <Compile Include="ViewModels\KPICategoryViewModel.cs" />
+    <Compile Include="ViewModels\ManageUpdateViewModel.cs" />
+    <Compile Include="ViewModels\MenuViewModel.cs" />
+    <Compile Include="ViewModels\OrganizationImportModel.cs" />
+    <Compile Include="ViewModels\OrganizationViewModel.cs" />
+    <Compile Include="ViewModels\ProjectReviewViewModel.cs" />
+    <Compile Include="ViewModels\ProjectScoreViewModel.cs" />
+    <Compile Include="ViewModels\ReviewerUpdateViewModel.cs" />
+    <Compile Include="ViewModels\ReviewerViewModel.cs" />
+    <Compile Include="ViewModels\RoleMenuMappingViewModel.cs" />
+    <Compile Include="ViewModels\RoleViewModel.cs" />
+    <Compile Include="ViewModels\RoleUserMappingViewModel.cs" />
+    <Compile Include="ViewModels\ScopeItemViewModel.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.Config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

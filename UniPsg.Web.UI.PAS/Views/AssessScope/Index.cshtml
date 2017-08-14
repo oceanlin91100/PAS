@@ -1,0 +1,45 @@
+﻿@using PagedList.Mvc;
+@model UniPsg.Web.UI.PAS.Models.AssessScopeIndexView
+
+@{
+    ViewBag.Title = "考核範團清單";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<br />
+<h5><i class="fa fa-cog" aria-hidden="true"> &nbsp;設定管理</i>  &nbsp;&gt;&nbsp; <a href="@Url.Action("Index","AssessScope")">考核範團</a></h5>
+<center><h4>@ViewBag.Title</h4></center>
+<div class="form-horizontal">
+    <div align="left"><i class="fa fa-plus" aria-hidden="true"><a href="@Url.Action("Create","AssessScope")">&nbsp;考核範圍新增 </a></i></div>
+    <table cellpadding="2" class="table" cellspacing="2" border="1">
+        <tr class="bg-primary">            
+            <th class="text-nowrap"> Id </th>
+            <th class="text-nowrap"> @Html.ActionLink("名稱", "Index", new { sortOrder = ViewBag.NameSortParm }, new { @class = "label label-primary" }) </th>            
+            <th class="text-nowrap"> 是否有選項</th>
+            <th class="text-nowrap"> 狀態</th>
+            <th class="text-nowrap"> @Html.ActionLink("修改時間", "Index", new { sortOrder = ViewBag.DateSortParm }, new { @class = "label label-primary" }) </th>
+            <th class="text-nowrap"> </th>
+        </tr>
+        @if (Model.Scopes != null)
+            {
+                foreach (var item in Model.Scopes)
+                {
+                <tr class="btn-sm">
+                    <td>@item.Id</td>
+                    <td>@item.Name</td>
+                    <td>@Helpers.GetYesNo(item.HasItem)</td>
+                    <td>@Helpers.GetStatusDisplayName(@item.Status)</td>                    
+                    <td>@item.ModifiedDate.ToString()</td>
+                    <td align="center" width="15%">
+                        <i class="fa fa-trash-o" aria-hidden="true"><a onclick="return confirm('Do you want to Delete?')" href="@Url.Action("Delete", "AssessScope", new { id = item.Id })"> 刪除 </a></i>
+                        &nbsp;||&nbsp; <i class="fa fa-pencil" aria-hidden="true"><a href="@Url.Action("Edit", "AssessScope", new { id = item.Id })"> 修改 </a></i>
+                        &nbsp;|| &nbsp;<i class="fa fa-info" aria-hidden="true"><a href="@Url.Action("Detail", "AssessScope", new { id = item.Id })"> 檢視 </a></i>
+                    </td>
+                </tr>
+            }
+        }
+    </table>
+    <div class="pager">
+        @Html.PagedListPager(Model.Scopes, page => Url.Action("Index", new { page }))
+    </div>
+</div>

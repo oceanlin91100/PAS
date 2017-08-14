@@ -1,0 +1,57 @@
+﻿@using PagedList.Mvc;
+@model UniPsg.Web.UI.PAS.Models.ReviewerIndexView
+
+@{
+    ViewBag.Title = "主管複評清單";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<br />
+<h5><i class="fa fa-line-chart" aria-hidden="true">&nbsp;績效考核</i>  &nbsp;&gt;&nbsp; <a href="@Url.Action("Index","Manage")">主管複評</a></h5>
+<center><h4>@ViewBag.Title</h4></center>
+<div class="form-horizontal">
+    <table cellpadding="2" class="table" cellspacing="2" border="1">
+        <tr class="bg-primary">
+            <th class="text-nowrap"> 專案名稱</th>
+            <th class="text-nowrap"> 考核年度</th>
+            <th class="text-nowrap"> @Html.ActionLink("考核表", "Reviewer", new { sortOrder = ViewBag.FormSortParm }, new { @class = "label label-primary" }) </th>
+            <th class="text-nowrap"> @Html.ActionLink("適用群組", "Reviewer", new { sortOrder = ViewBag.GroupSortParm }, new { @class = "label label-primary" }) </th>
+            <th class="text-nowrap"> 員工姓名 </th>
+            <th class="text-nowrap"> </th>
+        </tr>
+        @if (Model.Reviews != null)
+        {
+            foreach (var item in Model.Reviews)
+            {
+                <tr class="btn-xs">
+                    <td>@item.ProjectName</td>
+                    <td>@item.AssessYear</td>
+                    <td>@item.FormName</td>
+                    <td>@item.GroupName</td>
+                    <td>@item.EmployeeName</td>
+                    <td align="center" width="15%">
+                        @if (item.CategoryId == 1)
+                        {
+                            <a href="@Url.Action("Update1", "Manage", new { projectId = item.ProjectId, employeeNo = item.EmployeeNo })"><i class="fa fa-file-o" aria-hidden="true"></i> 複評 </a>
+                        }
+
+                        @if (item.CategoryId == 2)
+                        {
+                            <a href="@Url.Action("Update2", "Manage", new { projectId = item.ProjectId, employeeNo = item.EmployeeNo })"><i class="fa fa-file-o" aria-hidden="true"></i> 複評 </a>
+                        }
+
+                    </td>
+                </tr>
+            }
+        }
+    </table>
+    <div class="pager">
+        @Html.PagedListPager(Model.Reviews, page => Url.Action("Index", new { page }))
+    </div>
+</div>
+
+
+
+
+
+
+

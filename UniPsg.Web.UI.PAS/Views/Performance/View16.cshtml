@@ -1,0 +1,211 @@
+﻿@using UniPsg.Web.UI.PAS.Utility.Enums
+@model UniPsg.Web.UI.PAS.Models.ManageUpdateIndexView
+
+@{
+    ViewBag.Title = "績效考核檢視";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<br />
+<h5><i class="fa fa-line-chart" aria-hidden="true">&nbsp;績效查詢</i>  &nbsp;&gt;&nbsp; <a href="@Url.Action("Index","Performance")">績效進度查詢</a> &nbsp;&gt;&nbsp; 績效考核檢視</h5>
+@*<center><h4>@ViewBag.Title</h4></center>*@
+<div class="form-horizontal">
+    <hr />
+
+    <div class="form-group">
+        <div class="col-md-10">
+            <center><h5>@Model.ProjectName</h5></center>
+            <center><h5>【適用對象：@Model.GroupName】</h5></center>
+            <center><h5>考核期間：@Helpers.GetShowDate(Model.ViewStarDate)  &nbsp;&nbsp;至&nbsp;&nbsp;@Helpers.GetShowDate(Model.ViewEndDate) </h5></center>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-10">
+            <table cellpadding="2" class="table" cellspacing="2" border="1">
+                <tr class="btn-default">
+                    <th class="text-nowrap"> 部門碼</th>
+                    <th class="text-nowrap"> 科組</th>
+                    <th class="text-nowrap"> 員工編號</th>
+                    <th class="text-nowrap"> 姓名 </th>
+                    <th class="text-nowrap"> 到職日 </th>
+                    <th class="text-nowrap"> 職稱 </th>
+                    <th class="text-nowrap"> 最高學歷 </th>
+                </tr>
+                <tr class="btn-xs">
+                    <td>@Model.DeptCode</td>
+                    <td>@Model.TeamName</td>
+                    <td>@Model.EmployeeNo</td>
+                    <td>@Model.EmployeeName</td>
+                    <td>@Helpers.GetShowDate(Model.StartDate)</td>
+                    <td>@Model.JobCapName</td>
+                    <td>@Model.Education</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-10">
+            @Html.Label("Lable1", "I、工作目標達成狀況評核：")<br />
+            一、@ViewBag.ScopItem1：&nbsp; <br />
+            @ViewBag.Definition1
+        </div>
+        <div class="col-md-10">
+            <table cellpadding="2" class="table" cellspacing="2" border="1">
+                <tr class="btn-default">
+                    <th class="text-nowrap"> 工作要項及目標</th>
+                    <th class="text-nowrap"> 執行狀況說明(EX:達成率)</th>
+                    <th class="text-nowrap"> 自我檢視<br /> 工作目標達成或未達成之說明及工作心得與困難之描述</th>
+                    <th class="text-nowrap"> 主管檢視<br />工作目標達成之建議及困難之輔助</th>
+                </tr>
+                @if (Model.Reviews1 != null)
+                {
+                    for (int i = 0; i < Model.Reviews1.Count(); i++)
+                    {
+                        @Html.HiddenFor(model => model.Reviews1[i].Id)
+                        @Html.HiddenFor(model => model.Reviews1[i].ProjectId)
+                        @Html.HiddenFor(model => model.Reviews1[i].EmployeeNo)
+                        @Html.HiddenFor(model => model.Reviews1[i].Reviewer)
+                        @Html.HiddenFor(model => model.Reviews1[i].Modifier, new { @Value = @User.Identity.Name })
+                        @Html.HiddenFor(model => model.Reviews1[i].ItemId)
+                        @Html.HiddenFor(model => model.Reviews1[i].ItemName)
+                        @Html.HiddenFor(model => model.Reviews1[i].Rate)
+                        @Html.HiddenFor(model => model.Reviews1[i].Comment)
+                        <tr class="btn-sm">
+                            <td>@Model.Reviews1[i].ItemName</td>
+                            <td>@Model.Reviews1[i].Rate</td>
+                            <td style="white-space: pre-line">@Model.Reviews1[i].Comment</td>
+                            <td style="white-space: pre-line">
+                                @*@Model.Reviews1[i].Comment1*@
+                            </td>
+                        </tr>
+                    }
+                }
+            </table>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-10">
+            @*@Html.Label("Lable2", "二、人員管理能力暨內部流程改善：") &nbsp;*@
+            二、@ViewBag.ScopItem2：&nbsp;                <br />
+            @ViewBag.Definition2
+        </div>
+        <div class="col-md-10">
+            <table cellpadding="2" class="table" cellspacing="2" border="1">
+                <tr class="btn-default">
+                    <th class="text-nowrap"> 工作要項及目標</th>
+                    <th class="text-nowrap"> 執行狀況說明(EX:達成率)</th>
+                    <th class="text-nowrap"> 自我檢視<br /> 工作目標達成或未達成之說明及工作心得與困難之描述</th>
+                    <th class="text-nowrap"> 主管檢視<br />工作目標達成之建議及困難之輔助</th>
+                </tr>
+                @if (Model.Reviews2 != null)
+                {
+                    for (int i = 0; i < Model.Reviews2.Count(); i++)
+                    {
+                        @Html.HiddenFor(model => model.Reviews2[i].Id)
+                        @Html.HiddenFor(model => model.Reviews2[i].ProjectId)
+                        @Html.HiddenFor(model => model.Reviews2[i].EmployeeNo)
+                        @Html.HiddenFor(model => model.Reviews2[i].Reviewer)
+                        @Html.HiddenFor(model => model.Reviews2[i].Modifier, new { @Value = @User.Identity.Name })
+                        @Html.HiddenFor(model => model.Reviews2[i].ItemId)
+                        @Html.HiddenFor(model => model.Reviews2[i].ItemName)
+                        @Html.HiddenFor(model => model.Reviews2[i].Rate)
+                        @Html.HiddenFor(model => model.Reviews2[i].Comment)
+                        <tr class="btn-sm">
+                            <td>@Model.Reviews2[i].ItemName</td>
+                            <td>@Model.Reviews2[i].Rate</td>
+                            <td style="white-space: pre-line">@Model.Reviews2[i].Comment</td>
+                            <td style="white-space: pre-line">
+                                @*@Model.Reviews2[i].Comment1*@
+                            </td>
+                        </tr>
+                    }
+                }
+            </table>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-10">
+            三、@ViewBag.ScopItem3：&nbsp;               <br />
+            @ViewBag.Definition3
+        </div>
+        <div class="col-md-10">
+            <table cellpadding="2" class="table" cellspacing="2" border="1">
+                <tr class="btn-default">
+                    <th class="text-nowrap"> 工作要項及目標</th>
+                    <th class="text-nowrap"> 執行狀況說明(EX:達成率)</th>
+                    <th class="text-nowrap"> 自我檢視<br /> 工作目標達成或未達成之說明及工作心得與困難之描述</th>
+                    <th class="text-nowrap"> 主管檢視<br />工作目標達成之建議及困難之輔助</th>
+                </tr>
+                @if (Model.Reviews3 != null)
+                {
+                    for (int i = 0; i < Model.Reviews3.Count(); i++)
+                    {
+                        @Html.HiddenFor(model => model.Reviews3[i].Id)
+                        @Html.HiddenFor(model => model.Reviews3[i].ProjectId)
+                        @Html.HiddenFor(model => model.Reviews3[i].EmployeeNo)
+                        @Html.HiddenFor(model => model.Reviews3[i].Reviewer)
+                        @Html.HiddenFor(model => model.Reviews3[i].Modifier, new { @Value = @User.Identity.Name })
+                        @Html.HiddenFor(model => model.Reviews3[i].ItemId)
+                        @Html.HiddenFor(model => model.Reviews3[i].ItemName)
+                        @Html.HiddenFor(model => model.Reviews3[i].Rate)
+                        @Html.HiddenFor(model => model.Reviews3[i].Comment)
+                        <tr class="btn-sm">
+                            <td>@Model.Reviews3[i].ItemName</td>
+                            <td>@Model.Reviews3[i].Rate</td>
+                            <td style="white-space: pre-line">@Model.Reviews3[i].Comment</td>
+                            <td style="white-space: pre-line">
+                                @*@Model.Reviews3[i].Comment1*@
+                            </td>
+                        </tr>
+                    }
+                }
+            </table>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-10">
+            四、@ViewBag.ScopItem4：&nbsp;
+        </div>
+        <div class="col-md-10">
+            <table cellpadding="2" class="table" cellspacing="2" border="1">
+                <tr class="btn-default">
+                    <th class="text-nowrap"> 工作要項及目標</th>
+                    <th class="text-nowrap"> 執行狀況說明(EX:達成率)</th>
+                    <th class="text-nowrap"> 自我檢視<br /> 工作目標達成或未達成之說明及工作心得與困難之描述</th>
+                    <th class="text-nowrap"> 主管檢視<br />工作目標達成之建議及困難之輔助</th>
+                </tr>
+                @if (Model.Reviews4 != null)
+                {
+                    for (int i = 0; i < Model.Reviews4.Count(); i++)
+                    {
+                        @Html.HiddenFor(model => model.Reviews4[i].Id)
+                        @Html.HiddenFor(model => model.Reviews4[i].ProjectId)
+                        @Html.HiddenFor(model => model.Reviews4[i].EmployeeNo)
+                        @Html.HiddenFor(model => model.Reviews4[i].Reviewer)
+                        @Html.HiddenFor(model => model.Reviews4[i].Modifier, new { @Value = @User.Identity.Name })
+                        @Html.HiddenFor(model => model.Reviews4[i].ItemId)
+                        @Html.HiddenFor(model => model.Reviews4[i].ItemName)
+                        @Html.HiddenFor(model => model.Reviews4[i].Rate)
+                        @Html.HiddenFor(model => model.Reviews4[i].Comment)
+                        <tr class="btn-sm">
+                            <td>@Model.Reviews4[i].ItemName</td>
+                            <td>@Model.Reviews4[i].Rate</td>
+                            <td style="white-space: pre-line">@Model.Reviews4[i].Comment</td>
+                            <td style="white-space: pre-line">
+                                @*@Model.Reviews4[i].Comment1*@
+                            </td>
+                        </tr>
+                    }
+                }
+            </table>
+        </div>
+    </div>
+    <div><a href="javascript:window.print()">Click to Print This Page</a></div>
+</div>
+
+
+
+
+

@@ -1,0 +1,181 @@
+﻿@model UniPsg.Model.PAS.ViewModels.AssessPersonViewModel
+
+@{
+    ViewBag.Title = "考核人員檢視";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<br />
+<h5><i class="fa fa-cog" aria-hidden="true"> &nbsp;設定管理</i>  &nbsp;&gt;&nbsp; <a href="@Url.Action("Index","AssessPerson")">考核人員</a> &nbsp;&gt;&nbsp; 考核人員檢視 </h5>
+<center><h4>@ViewBag.Title</h4></center>
+
+<div class="form-horizontal">
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.ProjectName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ProjectName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FormId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FormId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FormName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FormName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.GroupId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.GroupId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.GroupName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.GroupName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EmployeeName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EmployeeName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.StartDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.StartDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TryDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TryDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BranchCode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BranchCode)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.BranchName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.BranchName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DeptCode)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DeptCode)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DeptName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DeptName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.JobCap)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.JobCap)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.JobCapName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.JobCapName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.JobPos)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.JobPos)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.JobPosName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.JobPosName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Education)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Education)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EmployeeType)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EmployeeType)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Status)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(m => @m.Status)
+            <br />
+            (註：0為啟用、1為停用。)
+        </dd>
+    </dl>
+</div>
+<div class="btn-sm">
+    @Html.DisplayNameFor(m => m.CreatedDate)@Html.DisplayFor(m => m.CreatedDate)，@Html.DisplayNameFor(m => m.Creator) @Html.DisplayFor(m => m.Creator)
+    <br />
+    @Html.DisplayNameFor(m => m.ModifiedDate)@Html.DisplayFor(m => m.ModifiedDate)，@Html.DisplayNameFor(m => m.Modifier) @Html.DisplayFor(m => m.Modifier)
+</div>
+<p>
+    <i class="fa fa-plus" aria-hidden="true">&nbsp;@Html.ActionLink("新增", "Create", "AssessPerson")</i> |
+    <i class="fa fa-trash-o" aria-hidden="true"><a onclick="return confirm('Do you want to Delete?')" href="@Url.Action("Delete", "AssessPerson",new { projectId = Model.ProjectId, employeeNo = Model.EmployeeNo })"> 刪除 </a></i> |
+    <i class="fa fa-pencil" aria-hidden="true">&nbsp;@Html.ActionLink("修改", "Edit", new { projectId = Model.ProjectId, employeeNo = Model.EmployeeNo }) </i> |
+    <i class="fa fa-indent" aria-hidden="true">&nbsp;<a href="@Url.Action("Flow", "Organization", new { projectId = Model.ProjectId, employeeNo = Model.EmployeeNo})"> 修改流程 </a> </i> |
+    <i class="fa fa-list" aria-hidden="true">@Html.ActionLink("Back to List", "Index")</i>
+</p>

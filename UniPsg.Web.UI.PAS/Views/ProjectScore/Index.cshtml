@@ -1,0 +1,62 @@
+﻿@using PagedList.Mvc;
+@model UniPsg.Web.UI.PAS.Models.ProjectScoreIndexView
+
+@{
+    ViewBag.Title = "考核成績清單";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<br />
+<h5><i class="fa fa-line-chart" aria-hidden="true">&nbsp;績效考核</i> &nbsp;&gt;&nbsp;<a href="@Url.Action("Index","ProjectScore")">考核成績</a></h5>
+<center>
+    <h4>@ViewBag.Title</h4>
+</center>
+<div class="form-horizontal">
+    <div align="left">
+        <i class="fa fa-plus" aria-hidden="true"><a href="@Url.Action("Create","ProjectScore")">&nbsp;考核成績新增 </a></i>
+    </div>
+    <table cellpadding="2" class="table" cellspacing="2" border="1">
+        <tr class="bg-primary">
+            <th class="text-nowrap"> Id </th>
+            <th class="text-nowrap"> 專案代碼 </th>
+            <th class="text-nowrap"> @Html.ActionLink("員工編號", "Index", new { sortOrder = ViewBag.NameSortParm }, new { @class = "label label-primary" }) </th>
+            <th class="text-nowrap"> 評核人員編 </th>
+            <th class="text-nowrap"> 獎懲狀況加減分 </th>
+            <th class="text-nowrap"> KPI分數 </th>
+            <th class="text-nowrap"> 核心職能分數 </th>
+            <th class="text-nowrap"> 管理職能分數 </th>
+            <th class="text-nowrap"> 順序 </th>
+            <th class="text-nowrap"> 狀 態 </th>
+            <th class="text-nowrap"> @Html.ActionLink("修改時間", "Index", new { sortOrder = ViewBag.DateSortParm }, new { @class = "label label-primary" }) </th>
+            <th class="text-nowrap"> </th>
+        </tr>
+        @if (Model.Scores != null)
+            {
+                foreach (var item in Model.Scores)
+                {
+                <tr class="btn-sm">
+                    <td>@item.Id</td>
+                    <td>@item.ProjectId</td>
+                    <td>@item.EmployeeNo</td>
+                    <td>@item.Reviewer</td>
+                    <td>@item.BPScore</td>
+                    <td>@item.KPIScore</td>
+                    <td>@item.CoreScore</td>
+                    <td>@item.ManageScore</td>                    
+                    <td>@item.OderSerial</td>
+                    <td>@Helpers.GetStatusDisplayName(@item.Status)</td>
+                    <td>@item.ModifiedDate.ToString()</td>
+                    <td align="center" width="15%">
+                        <i class="fa fa-trash-o" aria-hidden="true"><a onclick="return confirm('Do you want to Delete?')" href="@Url.Action("Delete", "ProjectScore", new { id = item.Id })"> 刪除 </a></i>
+                        &nbsp;||&nbsp;
+                        <i class="fa fa-pencil" aria-hidden="true"><a href="@Url.Action("Edit", "ProjectScore", new { id = item.Id })"> 修改 </a></i>
+                        &nbsp;|| &nbsp;
+                        <i class="fa fa-info" aria-hidden="true"><a href="@Url.Action("Detail", "ProjectScore", new { id = item.Id })"> 檢視 </a></i>
+                    </td>
+                </tr>
+            }
+        }
+    </table>
+    <div class="pager">
+        @Html.PagedListPager(Model.Scores, page => Url.Action("Index", new { page }))
+    </div>
+</div>

@@ -1,0 +1,43 @@
+﻿@model UniPsg.Model.PAS.ViewModels.RoleMenuMappingViewModel
+
+@{
+    ViewBag.Title = "角色選單權限新增";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<br />
+<h5><i class="fa fa-key" aria-hidden="true"> &nbsp;權限設定</i>  &nbsp;&gt;&nbsp; <a href="@Url.Action("Index","RoleMenuMapping")">角色選單權限</a>  &nbsp;&gt;&nbsp; 角色選單權限新增 </h5>
+<center><h4>@ViewBag.Title</h4></center>
+<div class="form-horizontal">
+    <hr />
+    @using (Html.BeginForm("Create", "RoleMenuMapping", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.RoleId, new { @class = "control-label col-md-2" })
+            <div class="col-md-3">
+                @Html.DropDownListFor(m => m.RoleId, new SelectList(ViewBag.Roles, "Id", "Name"), "請選擇", new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.RoleId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.MenuId, new { @class = "control-label col-md-2" })
+            <div class="col-md-3">
+                @Html.DropDownListFor(m => m.MenuId, new SelectList(ViewBag.Menus, "Id", "Name"), "請選擇", new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.MenuId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <a href="~/RoleMenuMapping" class="btn btn-warning">不儲存退出</a>
+                <input type="submit" value="儲存" class="btn btn-success" />
+                @Html.HiddenFor(m => m.Status, new { @Value = 0 })
+                @Html.HiddenFor(m => m.Creator, new { @Value = @User.Identity.Name })
+                @Html.HiddenFor(m => m.Modifier, new { @Value = @User.Identity.Name })
+            </div>
+        </div>
+    }
+</div>

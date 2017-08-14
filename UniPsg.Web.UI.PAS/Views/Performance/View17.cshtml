@@ -1,0 +1,82 @@
+﻿@using UniPsg.Web.UI.PAS.Utility.Enums
+@model UniPsg.Model.PAS.ViewModels.ManageUpdateViewModel
+
+@{
+    ViewBag.Title = "績效考核檢視";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<br />
+<h5><i class="fa fa-line-chart" aria-hidden="true">&nbsp;績效查詢</i>  &nbsp;&gt;&nbsp; <a href="@Url.Action("Index","Performance")">績效進度查詢</a> &nbsp;&gt;&nbsp; 績效考核檢視</h5>
+@*<center><h4>@ViewBag.Title</h4></center>*@
+<div class="form-horizontal">
+    <hr />
+    <div class="form-group">
+        <div class="col-md-10">
+            <center><h5>@Model.ProjectName</h5></center>
+            <center><h5>【適用對象：@Model.GroupName】</h5></center>
+            <center><h5>考核期間：@Helpers.GetShowDate(Model.ViewStarDate)  &nbsp;&nbsp;至&nbsp;&nbsp;@Helpers.GetShowDate(Model.ViewEndDate) </h5></center>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-10">
+            <table cellpadding="2" class="table" cellspacing="2" border="1">
+                <tr class="btn-default">
+                    <th class="text-nowrap"> 部門碼</th>
+                    <th class="text-nowrap"> 科組</th>
+                    <th class="text-nowrap"> 員工編號</th>
+                    <th class="text-nowrap"> 姓名 </th>
+                    <th class="text-nowrap"> 職稱 </th>
+                    <th class="text-nowrap"> 到職日 </th>
+                </tr>
+                <tr class="btn-xs">
+                    <td>@Model.DeptCode</td>
+                    <td>@Model.TeamName</td>
+                    <td>@Model.EmployeeNo</td>
+                    <td>@Model.EmployeeName</td>
+                    <td>@Model.JobCapName</td>
+                    <td>@Helpers.GetShowDate(Model.StartDate)</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-10">
+            @Html.Label("Lable1", "I、工作目標達成狀況評核(KPI)：")
+        </div>
+        <div class="col-md-10">
+            <table cellpadding="2" class="table" cellspacing="2" border="1">
+                <tr class="btn-default">
+                    <th class="text-nowrap"> 工作要項及目標<br />請將年度工作目標及職責，分項重點描述之。</th>
+                    <th class="text-nowrap"> 執行狀況說明<br />(EX:達成率等)</th>
+                    <th class="text-nowrap"> 自我檢視<br />工作目標達成或未達成之說明及工作心得與困難之描述</th>
+                    <th class="text-nowrap"> 主管檢視<br />工作目標達成之建議及困難之輔助</th>
+                </tr>
+                @if (Model.Reviews != null)
+                {
+                    for (int i = 0; i < Model.Reviews.Count(); i++)
+                    {
+                        @Html.HiddenFor(model => model.Reviews[i].Id)
+                        @Html.HiddenFor(model => model.Reviews[i].ProjectId)
+                        @Html.HiddenFor(model => model.Reviews[i].EmployeeNo)
+                        @Html.HiddenFor(model => model.Reviews[i].Reviewer)
+                        @Html.HiddenFor(model => model.Reviews[i].Modifier, new { @Value = @User.Identity.Name })
+                        <tr class="btn-sm">
+                            <td>@Model.Reviews[i].ItemName</td>
+                            <td>@Model.Reviews[i].Rate</td>
+                            <td style="white-space: pre-line">@Model.Reviews[i].Comment</td>
+                            <td style="white-space: pre-line">
+                                @*@Model.Reviews[i].Comment1*@
+                            </td>
+                        </tr>
+                    }
+                }
+            </table>
+        </div>
+    </div>  
+    <div><a href="javascript:window.print()">Click to Print This Page</a></div>
+</div>
+
+
+
+
+

@@ -1,0 +1,214 @@
+﻿@using UniPsg.Web.UI.PAS.Utility.Enums
+@model UniPsg.Model.PAS.ViewModels.ReviewerUpdateViewModel
+
+@{
+    ViewBag.Title = "員工自評維護";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<br />
+<h5><i class="fa fa-line-chart" aria-hidden="true">&nbsp;績效考核</i>  &nbsp;&gt;&nbsp; <a href="@Url.Action("Index","Review")">員工自評</a> &nbsp;&gt;&nbsp; 員工自評維護 </h5>
+<div class="form-horizontal">
+    <hr />
+    @using (Html.BeginForm("Update16", "Review", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            <div class="col-md-10">
+                <center><h5>@Model.ProjectName</h5></center>
+                <center><h5>【適用對象：@Model.GroupName】</h5></center>
+                <center><h5>考核期間：@Helpers.GetShowDate(Model.ViewStarDate)  &nbsp;&nbsp;至&nbsp;&nbsp;@Helpers.GetShowDate(Model.ViewEndDate) </h5></center>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-10">
+                <table cellpadding="2" class="table" cellspacing="2" border="1">
+                    <tr class="btn-default">
+                        <th class="text-nowrap"> 部門碼</th>
+                        <th class="text-nowrap"> 科組</th>
+                        <th class="text-nowrap"> 員工編號</th>
+                        <th class="text-nowrap"> 姓名 </th>
+                        <th class="text-nowrap"> 到職日 </th>
+                        <th class="text-nowrap"> 職稱 </th>
+                        <th class="text-nowrap"> 最高學歷 </th>
+                    </tr>
+                    <tr class="btn-xs">
+                        <td>@Model.DeptCode</td>
+                        <td>@Model.TeamName</td>
+                        <td>@Model.EmployeeNo</td>
+                        <td>@Model.EmployeeName</td>
+                        <td>@Helpers.GetShowDate(Model.StartDate)</td>
+                        <td>@Model.JobCapName</td>
+                        <td>@Model.Education</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-10">
+                @Html.Label("Lable1", "I、工作目標達成狀況評核：")<br />
+                一、@ViewBag.ScopItem1：&nbsp;
+                <i class="fa fa-plus" aria-hidden="true"><a href="@Url.Action("Create1", "ProjectReview", new { projectId = Model.ProjectId , employeeNo = Model.EmployeeNo, reviewer = Model.Reviewer , scopeId = 2, KPICategoryId =11,itemId =52})"> 新增 </a></i>
+                <br /> @ViewBag.Definition1
+            </div>
+            <div class="col-md-10">
+                <table cellpadding="2" class="table" cellspacing="2" border="1">
+                    <tr class="btn-default">
+                        <th class="text-nowrap"> 工作要項及目標</th>
+                        <th class="text-nowrap"> 執行狀況說明(EX:達成率)</th>
+                        <th class="text-nowrap"> 自我檢視<br /> 工作目標達成或未達成之說明及工作心得與困難之描述</th>
+                        <th class="text-nowrap"> </th>
+                    </tr>
+                    @if (ViewBag.Reviews1 != null)
+                    {
+                        foreach (var item in ViewBag.Reviews1)
+                        {
+                            <tr class="btn-sm">
+                                <td>@item.ItemName</td>
+                                <td>@item.Rate</td>
+                                <td style="white-space: pre-line">@item.Comment</td>
+                                <td align="center" width="15%">
+                                    <i class="fa fa-trash-o" aria-hidden="true"><a onclick="return confirm('Do you want to Delete?')" href="@Url.Action("Delete", "ProjectReview", new { id = item.Id, projectId = Model.ProjectId, employeeNo = Model.EmployeeNo })"> 刪除 </a></i>
+                                    &nbsp;|| &nbsp; <i class="fa fa-pencil" aria-hidden="true"><a href="@Url.Action("Edit1", "ProjectReview", new { id = item.Id, projectId = Model.ProjectId, employeeNo = Model.EmployeeNo })"> 修改 </a></i>
+                                </td>
+                            </tr>
+                        }
+                    }
+                </table>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-10">
+                @*@Html.Label("Lable2", "二、人員管理能力暨內部流程改善：") &nbsp;*@
+                二、@ViewBag.ScopItem2：&nbsp;
+                <i class="fa fa-plus" aria-hidden="true"><a href="@Url.Action("Create1", "ProjectReview", new { projectId = Model.ProjectId , employeeNo = Model.EmployeeNo, reviewer = Model.Reviewer , scopeId = 2, KPICategoryId =9,itemId =53})"> 新增 </a></i>
+                <br /> @ViewBag.Definition2
+            </div>
+            <div class="col-md-10">
+                <table cellpadding="2" class="table" cellspacing="2" border="1">
+                    <tr class="btn-default">
+                        <th class="text-nowrap"> 工作要項及目標</th>
+                        <th class="text-nowrap"> 執行狀況說明<br />(EX:達成率)</th>
+                        <th class="text-nowrap"> 自我檢視<br /> 工作目標達成或未達成之說明及工作心得與困難之描述</th>
+                        <th class="text-nowrap"> </th>
+                    </tr>
+                    @if (ViewBag.Reviews2 != null)
+                    {
+                        foreach (var item in ViewBag.Reviews2)
+                        {
+                            <tr class="btn-sm">
+                                <td>@item.ItemName</td>
+                                <td>@item.Rate</td>
+                                <td style="white-space: pre-line">@item.Comment</td>
+                                <td align="center" width="15%">
+                                    <i class="fa fa-trash-o" aria-hidden="true"><a onclick="return confirm('Do you want to Delete?')" href="@Url.Action("Delete", "ProjectReview", new { id = item.Id, projectId = Model.ProjectId, employeeNo = Model.EmployeeNo })"> 刪除 </a></i>
+                                    &nbsp;|| &nbsp; <i class="fa fa-pencil" aria-hidden="true"><a href="@Url.Action("Edit1", "ProjectReview", new { id = item.Id, projectId = Model.ProjectId, employeeNo = Model.EmployeeNo })"> 修改 </a></i>
+                                </td>
+                            </tr>
+                        }
+                    }
+                </table>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-10">
+                三、@ViewBag.ScopItem3：&nbsp;
+                <i class="fa fa-plus" aria-hidden="true"><a href="@Url.Action("Create1", "ProjectReview", new { projectId = Model.ProjectId , employeeNo = Model.EmployeeNo, reviewer = Model.Reviewer , scopeId = 2, KPICategoryId =12,itemId =54})" > 新增 </a></i>
+                <br /> @ViewBag.Definition3
+            </div>
+            <div align="left"></div>
+            <div class="col-md-10">
+                <table cellpadding="2" class="table" cellspacing="2" border="1">
+                    <tr class="btn-default">
+                        <th class="text-nowrap"> 工作要項及目標</th>
+                        <th class="text-nowrap"> 執行狀況說明<br />(EX:達成率)</th>
+                        <th class="text-nowrap"> 自我檢視<br /> 工作目標達成或未達成之說明及工作心得與困難之描述</th>
+                        <th class="text-nowrap"> </th>
+                    </tr>
+                    @if (ViewBag.Reviews3 != null)
+                    {
+                        foreach (var item in ViewBag.Reviews3)
+                        {
+                            <tr class="btn-sm">
+                                <td>@item.ItemName</td>
+                                <td>@item.Rate</td>
+                                <td style="white-space: pre-line">@item.Comment</td>
+                                <td align="center" width="15%">
+                                    <i class="fa fa-trash-o" aria-hidden="true"><a onclick="return confirm('Do you want to Delete?')" href="@Url.Action("Delete", "ProjectReview", new { id = item.Id, projectId = Model.ProjectId, employeeNo = Model.EmployeeNo })"> 刪除 </a></i>
+                                    &nbsp;|| &nbsp; <i class="fa fa-pencil" aria-hidden="true"><a href="@Url.Action("Edit1", "ProjectReview", new { id = item.Id, projectId = Model.ProjectId, employeeNo = Model.EmployeeNo })"> 修改 </a></i>
+                                </td>
+                            </tr>
+                        }
+                    }
+                </table>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-10">
+                四、@ViewBag.ScopItem4：&nbsp;
+                <i class="fa fa-plus" aria-hidden="true"><a href="@Url.Action("Create1", "ProjectReview", new { projectId = Model.ProjectId , employeeNo = Model.EmployeeNo, reviewer = Model.Reviewer , scopeId = 2, KPICategoryId =13,itemId =55})" > 新增 </a></i>
+            </div>
+            <div class="col-md-10">
+                <table cellpadding="2" class="table" cellspacing="2" border="1">
+                    <tr class="btn-default">
+                        <th class="text-nowrap"> 工作要項及目標</th>
+                        <th class="text-nowrap"> 執行狀況說明<br />(EX:達成率)</th>
+                        <th class="text-nowrap"> 自我檢視<br /> 工作目標達成或未達成之說明及工作心得與困難之描述</th>
+                        <th class="text-nowrap"> </th>
+                    </tr>
+                    @if (ViewBag.Reviews4 != null)
+                    {
+                        foreach (var item in ViewBag.Reviews4)
+                        {
+                            <tr class="btn-sm">
+                                <td>@item.ItemName</td>
+                                <td>@item.Rate</td>
+                                <td style="white-space: pre-line">@item.Comment</td>
+                                <td align="center" width="15%">
+                                    <i class="fa fa-trash-o" aria-hidden="true"><a onclick="return confirm('Do you want to Delete?')" href="@Url.Action("Delete", "ProjectReview", new { id = item.Id, projectId = Model.ProjectId, employeeNo = Model.EmployeeNo })"> 刪除 </a></i>
+                                    &nbsp;|| &nbsp; <i class="fa fa-pencil" aria-hidden="true"><a href="@Url.Action("Edit1", "ProjectReview", new { id = item.Id, projectId = Model.ProjectId, employeeNo = Model.EmployeeNo })"> 修改 </a></i>
+                                </td>
+                            </tr>
+                        }
+                    }
+                </table>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-10">
+                <center>
+                    <a href="~/Review" class="btn btn-warning">回清單</a> &nbsp; &nbsp;
+                    @*<a href="@Url.Action("Print1", "Performance", new { projectId = Model.ProjectId, employeeNo = Model.EmployeeNo })" target="_blank" class="btn btn-default"> 列印檢視 </a>&nbsp; &nbsp;*@
+                    <a href="@Url.Action("Update16", "Review", new { projectId = Model.ProjectId , employeeNo = Model.EmployeeNo, reviewer = Model.Reviewer })" class="btn btn-default" onclick="return checkData()"> 送審 </a>
+                    @Html.HiddenFor(model => model.ProjectId)
+                    @Html.HiddenFor(model => model.EmployeeNo)
+                    @Html.HiddenFor(model => model.Reviewer)
+                    @Html.Hidden("rows", (int)ViewBag.Rows)
+                </center>
+            </div>
+        </div>
+    }
+</div>
+
+
+<script type="text/javascript">
+
+    function checkData()
+    {
+        if (document.getElementById('rows').value > 0) {
+            if (confirm('是否確定送審?') == true)
+                return true;
+            else
+                return false;
+        }
+        else {
+            alert("請至少輸入一筆自評!");
+            return false;
+        }
+    }
+
+</script>
+
+
+
+

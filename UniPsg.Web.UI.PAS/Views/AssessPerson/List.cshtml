@@ -1,0 +1,107 @@
+﻿@using PagedList.Mvc;
+@model UniPsg.Web.UI.PAS.Models.AssessPersonIndexView
+
+@{
+
+    ViewBag.Title = "考核人員檢視清單";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<br />
+<h5><i class="fa fa-cog" aria-hidden="true"> &nbsp;設定管理</i> &nbsp;&gt;&nbsp; <a href="@Url.Action("Index","AssessProject")">考核專案</a></h5>
+<center><h4>@ViewBag.Title</h4></center>
+<div class="form-horizontal">
+    @using (Html.BeginForm("List", "AssessPerson", FormMethod.Post))
+    {
+
+        <div class="form-group">
+            @*<div class="col-md-2 text-right"> 查詢條件：
+                   @Html.Label("Lable1", "", new { @class = "text right" })
+                </div>*@
+            @*<div class="col-md-2">
+                    @Html.DropDownListFor(m => m.ProjectId, new SelectList(ViewBag.Projects, "Id", "Name"), "請選擇", new { @class = "form-control" })
+                </div>*@
+            @Html.HiddenFor(m => m.ProjectId)
+
+            <div class="col-md-2">
+                @Html.DropDownListFor(m => m.BranchCode, new SelectList(ViewBag.Branches, "BranchCode", "BranchName"), "請選擇", new { @class = "form-control" })
+            </div>
+            <div class="col-md-2">
+                @Html.DropDownListFor(m => m.DeptCode, new SelectList(ViewBag.Depts, "DeptCode", "DeptName"), "請選擇", new { @class = "form-control" })
+            </div>
+            <div class="col-md-2">
+                @Html.TextBoxFor(m => m.EmployeeNo, new { @class = "form-control" })
+            </div>
+            <div class="col-md-1">
+                <input type="submit" value="Search" class="btn btn-default" />
+            </div>
+        </div>
+
+    }
+
+    <table cellpadding="2" class="table" cellspacing="2" border="1">
+        <tr class="btn-default">
+            <th class="text-nowrap"> 專案名稱</th>
+            <th class="text-nowrap"> @Html.ActionLink("考核表", "List", new { sortOrder = ViewBag.NameSortParm, projectId = ViewBag.CurrentProjectId }, new { @class = "label label-default" }) </th>
+            <th class="text-nowrap"> @Html.ActionLink("公司別", "List", new { sortOrder = ViewBag.BrachSortParm, projectId = ViewBag.CurrentProjectId }, new { @class = "label label-default" }) </th>
+            <th class="text-nowrap"> @Html.ActionLink("部門別", "List", new { sortOrder = ViewBag.DeptSortParm, projectId = ViewBag.CurrentProjectId }, new { @class = "label label-default" }) </th>
+            <th class="text-nowrap"> @Html.ActionLink("科組別", "List", new { sortOrder = ViewBag.TeamSortParm, projectId = ViewBag.CurrentProjectId }, new { @class = "label label-default" }) </th>
+            <th class="text-nowrap"> 員工姓名</th>
+            <th class="text-nowrap">  @Html.ActionLink("適用群組", "List", new { sortOrder = ViewBag.GroupSortParm, projectId = ViewBag.CurrentProjectId }, new { @class = "label label-default" }) </th>
+            <th class="text-nowrap"> 簽核流程</th>
+            <th class="text-nowrap"> 狀態</th>
+            <th class="text-nowrap"> @Html.ActionLink("目前審核人員", "List", new { sortOrder = ViewBag.DateSortParm, projectId = ViewBag.CurrentProjectId }, new { @class = "label label-default" })  </th>
+            <th class="text-nowrap">
+                <i class="fa fa-file-excel-o fa"><a href="@Url.Action("Export", "AssessPerson", new { projectId = ViewBag.CurrentProjectId,  All = "N" })"> 匯出人員 </a></i>
+            </th>
+        </tr>
+        @if (Model.People != null)
+        {
+            foreach (var item in Model.People)
+            {
+                <tr class="btn-xs ">
+                    <td>@item.ProjectName</td>
+                    <td>@item.FormName</td>
+                    <td>@item.BranchName</td>
+                    <td>@item.DeptName</td>
+                    <td>@item.TeamName</td>
+                    <td>@item.EmployeeName</td>
+                    <td>@item.GroupName</td>
+                    <td>@item.NamePath</td>
+                    <td>@Helpers.GetStatusDisplayName(item.Status)</td>
+                    @if (item.ReName != string.Empty)
+                    {
+                        <td>@item.ReName.ToString()</td>
+                    }
+                    else
+                    {
+                        <td>已核定</td>
+                    }
+                    <td width="15%" class="bottom">
+                        @if ((ViewBag.Rore == "HRAdmin") || (ViewBag.Rore == "SysAdmin"))
+                        {
+                            if (item.Status == 0 && item.Reviewer != "00000")
+                            {
+                                <div>
+                                    <i class="fa fa-indent" aria-hidden="true"><a href="@Url.Action("Flow", "Organization", new { projectId = item.ProjectId, employeeNo = item.EmployeeNo })"> 修改流程 </a></i>
+                                    &nbsp;|| &nbsp;
+                                </div>
+                            }
+                            if (item.Status == 0 && item.Reviewer == "00000")
+                            {
+                                <div>
+                                    <i class="fa fa-pencil" aria-hidden="true"><a href="@Url.Action("Update", "AssessPerson", new { projectId = item.ProjectId, employeeNo = item.EmployeeNo })"> 修改審核人員 </a></i>
+                                    &nbsp;|| &nbsp;
+                                </div>
+                            }
+
+                            <i class="fa fa-info" aria-hidden="true"><a href="@Url.Action("Detail1", "Performance", new { projectId = item.ProjectId, employeeNo = item.EmployeeNo })"> 考核表檢視 </a></i>
+                        }
+                    </td>
+                </tr>
+            }
+        }
+    </table>
+    <div class="pager">
+        @Html.PagedListPager(Model.People, page => Url.Action("List", new { page, sortOrder = ViewBag.CurrentSort, projectId = ViewBag.CurrentProjectId, branchCode = ViewBag.CurrentBranchCode, deptCode = ViewBag.CurrentDeptCode }))
+    </div>
+</div>

@@ -1,0 +1,100 @@
+﻿@model UniPsg.Model.PAS.ViewModels.AssessProjectViewModel
+
+@{
+    ViewBag.Title = "考核專案檢視";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<br />
+<h5><i class="fa fa-cog" aria-hidden="true"> &nbsp;設定管理</i>  &nbsp;&gt;&nbsp; <a href="@Url.Action("Index","AssessProject")">考核專案</a> &nbsp;&gt;&nbsp; 考核專案檢視 </h5>
+<center><h4>@ViewBag.Title</h4></center>
+<div class="form-horizontal">
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ViewStarDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ViewStarDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ViewEndDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ViewEndDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.FromDate)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.FromDate)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Deadline)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Deadline)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.AssessYear)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.AssessYear)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.TryDatae)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.TryDatae)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Groups)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Groups)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Forms)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Forms)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Status)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Status)
+            <br />
+            (註：0為啟用、1為停用。)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Definition)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Definition)
+        </dd>
+    </dl>
+</div>
+<div class="btn-sm">
+    @Html.DisplayNameFor(m => m.CreatedDate)@Html.DisplayFor(m => m.CreatedDate)，@Html.DisplayNameFor(m => m.Creator) @Html.DisplayFor(m => m.Creator)
+    <br />
+    @Html.DisplayNameFor(m => m.ModifiedDate)@Html.DisplayFor(m => m.ModifiedDate)，@Html.DisplayNameFor(m => m.Modifier) @Html.DisplayFor(m => m.Modifier)
+</div>
+<p>
+    <i class="fa fa-plus" aria-hidden="true">&nbsp;@Html.ActionLink("新增", "Create", "AssessProject")</i> |
+    <i class="fa fa-trash-o" aria-hidden="true"><a onclick="return confirm('Do you want to Delete?')" href="@Url.Action("Delete", "AssessProject", new { id = Model.Id })"> 刪除 </a></i> |
+    <i class="fa fa-pencil" aria-hidden="true">&nbsp;@Html.ActionLink("修改", "Edit", new { id = Model.Id }) </i> |
+    <i class="fa fa-address-card-o" aria-hidden="true"><a href="@Url.Action("Imports", "AssessPerson", new { projectId = Model.Id })"> 匯入人員 </a></i> |
+    <i class="fa fa-building-o" aria-hidden="true"><a href="@Url.Action("Imports", "Organization", new { projectId = Model.Id })"> 匯入組織 </a></i> |
+    <i class="fa fa-file-excel-o fa"><a href="@Url.Action("Export", "AssessPerson", new { projectId = Model.Id })"> 匯出人員 </a></i> |
+    <i class="fa fa-envelope-o" aria-hidden="true"><a href="@Url.Action("Notice", "AssessPerson", new { projectId = Model.Id })"> 未核定通知 </a></i> |
+    <i class="fa fa-child" aria-hidden="true"><a href="@Url.Action("List", "AssessPerson", new { projectId = Model.Id })"> 考核人員檢視 </a></i> |
+    <i class="fa fa-clone" aria-hidden="true"><a href="@Url.Action("Closed", "AssessProject", new { projectId = Model.Id })"> 結案 </a></i> |
+    <i class="fa fa-list" aria-hidden="true">@Html.ActionLink("Back to List", "Index")</i>
+</p>

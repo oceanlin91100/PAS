@@ -1,0 +1,63 @@
+﻿@using UniPsg.Web.UI.PAS.Utility.Enums
+@model UniPsg.Model.PAS.ViewModels.ScopeItemViewModel
+
+@{
+    ViewBag.Title = "KPI項目新增";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<br />
+<h5><i class="fa fa-cog" aria-hidden="true"> &nbsp;設定管理</i>  &nbsp;&gt;&nbsp; <a href="@Url.Action("Index1","KPIItem")">KPI項目</a>  &nbsp;&gt;&nbsp; KPI項目新增 </h5>
+<center><h4>@ViewBag.Title</h4></center>
+<div class="form-horizontal">
+    <hr />
+    @using (Html.BeginForm("Create1", "KPIItem", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.KPICategoryId, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(m => m.KPICategoryId, new SelectList(ViewBag.Categories, "Id", "Name"), "請選擇", new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.KPICategoryId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.Name, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.Weight, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.Weight, new { @class = "form-control", @Value = 20 })
+                @Html.ValidationMessageFor(m => m.Weight, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.Groups, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(m => m.Groups, "CheckBoxList", new { TagName = "Groups", CheckBoxItems = ViewBag.GroupItems, Position = Position.Vertical, Numbers = 3 })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.Definition, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(m => m.Definition, new { @class = "form-control", @rows = "6" })
+                @Html.ValidationMessageFor(m => m.Definition, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <a href="~/KPIItem" class="btn btn-warning">不儲存退出</a>
+                <input type="submit" value="儲存" class="btn btn-success" />
+                @Html.HiddenFor(m => m.ScopeId, new { @Value = 2 })                        
+                @Html.HiddenFor(m => m.Status, new { @Value = 0 })
+                @Html.HiddenFor(m => m.Creator, new { @Value = @User.Identity.Name })
+                @Html.HiddenFor(m => m.Modifier, new { @Value = @User.Identity.Name })
+            </div>
+        </div>
+    }
+</div>

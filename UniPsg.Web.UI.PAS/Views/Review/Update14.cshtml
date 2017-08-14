@@ -1,0 +1,163 @@
+﻿@using UniPsg.Web.UI.PAS.Utility.Enums
+@model UniPsg.Model.PAS.ViewModels.ReviewerUpdateViewModel
+
+@{
+    ViewBag.Title = "員工自評維護";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<br />
+<h5><i class="fa fa-line-chart" aria-hidden="true">&nbsp;績效考核</i>  &nbsp;&gt;&nbsp; <a href="@Url.Action("Index","Review")">員工自評</a> &nbsp;&gt;&nbsp; 員工自評維護 </h5>
+@*<center><h4>@ViewBag.Title</h4></center>*@
+<div class="form-horizontal">
+    <hr />
+    @using (Html.BeginForm("Update14", "Review", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            <div class="col-md-10">
+                <center><h4>@Model.ProjectName &nbsp; 【適用對象：@Model.GroupName】</h4></center>
+                <center><h5>考核期間：@Helpers.GetShowDate(Model.ViewStarDate)  &nbsp;&nbsp;至&nbsp;&nbsp;@Helpers.GetShowDate(Model.ViewEndDate) </h5></center>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-10">
+                <table cellpadding="2" class="table" cellspacing="2" border="1">
+                    <tr class="btn-default">
+                        <th class="text-nowrap"> 公司別 </th>
+                        <th class="text-nowrap"> 姓名 </th>
+                        <th class="text-nowrap"> 職稱 </th>
+                        <th class="text-nowrap"> 到職日 </th>
+                    </tr>
+                    <tr class="btn-xs">
+                        <td>@Model.BranchName</td>
+                        <td>@Model.EmployeeName</td>
+                        <td>@Model.JobCapName</td>
+                        <td>@Helpers.GetShowDate(Model.StartDate)</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        if (Model.Reviews != null)
+        {
+            <div class="form-group">
+                <div class="col-md-10">
+                    @Html.Label("Lable1", "I、工作目標達成狀況評核(KPI)：")
+                </div>
+                <div class="col-md-10">
+                    <table cellpadding="2" class="table" cellspacing="2" border="1">
+                        <tr class="btn-default">
+                            <th class="text-nowrap"> 分類 </th>
+                            <th class="text-nowrap"> 項目 </th>
+                            <th class="text-nowrap"> 比重<br />(%)</th>
+                            <th class="text-nowrap"> 執行狀況說明<br />(EX:達成率)</th>
+                            <th class="text-nowrap"> 自我檢視<br />工作目標達成或未達成之說明及工作心得與困難之描述</th>
+                        </tr>
+                        @for (int i = 0; i < Model.Reviews.Count(); i++)
+                        {
+                            <tr class="btn-xs">
+                                <td>
+                                    @Html.HiddenFor(model => model.Reviews[i].Id)
+                                    @Html.HiddenFor(model => model.Reviews[i].ProjectId)
+                                    @Html.HiddenFor(model => model.Reviews[i].EmployeeNo)
+                                    @Html.HiddenFor(model => model.Reviews[i].Reviewer)
+                                    @Html.HiddenFor(model => model.Reviews[i].ScopeId)
+                                    @Html.HiddenFor(model => model.Reviews[i].KPICategoryId)
+                                    @Html.HiddenFor(model => model.Reviews[i].KPICategoryName)
+                                    @Model.Reviews[i].KPICategoryName
+                                </td>
+                                <td>
+                                    @Html.HiddenFor(model => model.Reviews[i].ItemId)
+                                    @Html.HiddenFor(model => model.Reviews[i].ItemName)
+                                    <u>@Model.Reviews[i].ItemName</u>
+                                    <br />
+                                    @Model.Reviews[i].Definition
+                                </td>
+                                <td>
+                                    @Html.HiddenFor(model => model.Reviews[i].Weight)
+                                    @Model.Reviews[i].Weight
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(model => model.Reviews[i].Rate, new { @class = "form-control", @id = "Rate_" + i })
+                                    @Html.ValidationMessageFor(model => model.Reviews[i].Rate, "", new { @class = "text-danger" })
+                                    @Html.HiddenFor(model => model.Reviews[i].Score)
+                                </td>
+                                <td>
+                                    @Html.TextAreaFor(model => model.Reviews[i].Comment, new { @class = "form-control" , @id = "Comment_" + i })                                    
+                                    @Html.ValidationMessageFor(model => model.Reviews[i].Comment, "", new { @class = "text-danger" })
+                                    <br />
+                                    <div>註：最多輸入300個中文字。</div>
+                                    @Html.HiddenFor(model => model.Reviews[i].Creator)
+                                    @Html.HiddenFor(model => model.Reviews[i].Modifier)
+
+                                </td>
+                            </tr>
+                        }
+
+                    </table>
+                </div>
+            </div>
+        }
+        <div class="form-group">
+            <div class="col-md-10">
+                <center>
+                    <a href="~/Review" class="btn btn-warning">不儲存退出</a> &nbsp; &nbsp;    
+                    @*<a href="@Url.Action("Print1", "Performance", new { projectId = Model.ProjectId, employeeNo = Model.EmployeeNo })" target="_blank" class="btn btn-default"> 列印檢視 </a>&nbsp; &nbsp;*@                
+                    <input type="submit" name="reviw" value="送審" class="btn btn-default" onclick="return checkData();" />
+                    <input type="submit" name="save" value="儲存" class="btn btn-success" />
+                    @Html.HiddenFor(model => model.ProjectId)
+                    @Html.HiddenFor(model => model.EmployeeNo)
+                    @Html.HiddenFor(model => model.Reviewer)
+                    @Html.Hidden("rows", (int)ViewBag.Rows)
+                </center>
+            </div>
+        </div>
+    }
+</div>
+
+<script type="text/javascript">
+    function checkData()
+    {
+        var rows = document.getElementById('rows').value
+
+        for (i = 0; i < rows; i++) {
+            if (document.getElementById('Rate_' + i).value == 0) {
+                if (confirm('是否確定執行狀況說明為0?') == true) {
+                    if (document.getElementById('Comment_' + i).value == "") {
+                        alert("請輸入自評!");
+                        document.getElementById('Comment_' + i).focus();
+                        return false;
+                    }
+                }
+                else
+                    return false;               
+            }
+
+            if (document.getElementById('Rate_' + i).value > 100) {
+                alert("達成率必需是大於0小於100的數字!");
+                document.getElementById('Rate_' + i).focus();
+                return false;
+            }
+
+
+            if (document.getElementById('Comment_' + i).value == "") {
+                alert("請輸入自評!");
+                document.getElementById('Comment_' + i).focus();
+                return false;
+            }
+
+            var value = document.getElementById('Comment_' + i).value;
+            if (value.length > 301) {
+                alert("最多輸入300個中文字。");
+                document.getElementById('Comment_' + i).focus();
+                return false; 
+            }
+        }
+        
+        if (confirm('是否確定送審?') == true)
+            return true;
+        else
+            return false;        
+    }    
+</script>
+

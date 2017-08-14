@@ -1,0 +1,74 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - 人事績效考核系統</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    <link href="~/Content/font-awesome.min.css" rel="stylesheet" />
+    <script src="~/Scripts/jquery-1.12.4.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+</head>
+<body contextmenu="return false;">
+    <script>
+        $(document).ready(function () {
+            $(this).bind("contextmenu", function (e) {
+                e.preventDefault();
+            });
+        });
+    </script>
+    <div class="navbar navbar-default navbar-fixed-top">
+        <div class="container">
+            <div class="nav navbar-nav">
+
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+
+                </button>
+                @Html.ActionLink("人事績效考核系統", "Index", "Review", new { area = "" }, new { @class = "navbar-brand" })
+            </div>
+            <div class="nav navbar-nav">
+                @Html.MvcSiteMap().Menu("BootstrapMenuHelperModel", false)
+            </div>
+            <div class="nav navbar-text navbar-right">
+                <div class="btn-group">
+                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        使用手冊 <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a href="~/Files/使用手冊-主管.pptx">使用手冊-主管</a></li>
+                        <li><a href="~/Files/使用手冊-員工.pptx">使用手冊-員工</a></li>
+                    </ul>
+                </div>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        您好，@User.Identity.Name! <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a href="~/Home/SignOff">使用其他帳號</a></li>
+                    </ul>
+                </div>
+                <div class="btn-group">
+                    <input id="btnLogout" type="button" value="登出" class="btn btn-primary dropdown-toggle" onclick="javascript:window.close();" />                   
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            @*<p align="center">統一證券集團&nbsp;版權所有 &copy; @DateTime.Now.Year &nbsp;Uni-President Sercurities Group All rights reserved.</p>*@
+        </footer>
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @*@RenderSection("scripts", required: false)*@
+</body>
+</html>

@@ -1,0 +1,242 @@
+﻿@using UniPsg.Web.UI.PAS.Utility.Enums
+@model UniPsg.Model.PAS.ViewModels.ManageUpdateViewModel
+
+@{
+    ViewBag.Title = "主管複評維護";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<br />
+<h5><i class="fa fa-line-chart" aria-hidden="true">&nbsp;績效考核</i>  &nbsp;&gt;&nbsp; <a href="@Url.Action("Index","Manage")">主管複評</a> &nbsp;&gt;&nbsp; 主管複評維護</h5>
+@*<center><h4>@ViewBag.Title</h4></center>*@
+<div class="form-horizontal">
+    <hr />
+    @using (Html.BeginForm("Update14", "Manage", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            <div class="col-md-10">
+                <center><h4>@Model.ProjectName &nbsp; 【適用對象：@Model.GroupName】</h4></center>
+                <center><h5>考核期間：@Helpers.GetShowDate(Model.ViewStarDate)  &nbsp;&nbsp;至&nbsp;&nbsp;@Helpers.GetShowDate(Model.ViewEndDate) </h5></center>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-10">
+                <table cellpadding="2" class="table" cellspacing="2" border="1">
+                    <tr class="btn-default">
+                        <th class="text-nowrap"> 分公司</th>
+                        <th class="text-nowrap"> 姓名</th>
+                        <th class="text-nowrap"> 職稱</th>
+                        <th class="text-nowrap"> 到職日</th>
+                    </tr>
+                    <tr class="btn-xs">
+                        <td>@Model.BranchName</td>
+                        <td>@Model.EmployeeName</td>
+                        <td>@Model.JobCapName</td>
+                        <td>@Helpers.GetShowDate(Model.StartDate)</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        if (Model.Reviews != null)
+        {
+            <div class="form-group">
+                <div class="col-md-10">
+                    @Html.Label("Lable1", "I、工作目標達成狀況評核(KPI)：")
+                </div>
+                <div class="col-md-10">
+                    <table cellpadding="2" class="table" cellspacing="2" border="1">
+                        <tr class="btn-default">
+                            <th class="text-nowrap"> 分類 </th>
+                            <th class="text-nowrap"> 項目 </th>
+                            <th class="text-nowrap"> 比重<br />(%)</th>
+                            <th class="text-nowrap"> 執行狀況說明<br />(EX:達成率)</th>
+                            <th class="text-nowrap"> 自我檢視<br />工作目標達成或未達成之說明及工作心得與困難之描述</th>
+                            <th class="text-nowrap"> 主管檢視<br />工作目標達成之建議及困難之輔助</th>
+                        </tr>
+                        @for (int i = 0; i < Model.Reviews.Count(); i++)
+                        {
+                            @Html.HiddenFor(model => model.Reviews[i].Id)
+                            @Html.HiddenFor(model => model.Reviews[i].ProjectId)
+                            @Html.HiddenFor(model => model.Reviews[i].EmployeeNo)
+                            @Html.HiddenFor(model => model.Reviews[i].Reviewer)
+                            @Html.HiddenFor(model => model.Reviews[i].ScopeId)
+                            @Html.HiddenFor(model => model.Reviews[i].KPICategoryId)
+                            @Html.HiddenFor(model => model.Reviews[i].KPICategoryName)
+                            @Html.HiddenFor(model => model.Reviews[i].ItemId)
+                            @Html.HiddenFor(model => model.Reviews[i].ItemName)
+                            @Html.HiddenFor(model => model.Reviews[i].Definition)
+                            @Html.HiddenFor(model => model.Reviews[i].Weight)
+                            @Html.HiddenFor(model => model.Reviews[i].Rate)
+                            @Html.HiddenFor(model => model.Reviews[i].Score)
+                            @Html.HiddenFor(model => model.Reviews[i].Comment)
+                            @Html.HiddenFor(model => model.Reviews[i].Creator)
+                            @Html.HiddenFor(model => model.Reviews[i].Modifier, new { @Value = @User.Identity.Name })
+
+                            <tr class="btn-xs">
+                                <td>
+                                    @Model.Reviews[i].KPICategoryName
+                                </td>
+                                <td>
+                                    <u>@Model.Reviews[i].ItemName</u>
+                                    <br />
+                                    @Model.Reviews[i].Definition
+                                </td>
+                                <td>
+                                    @Model.Reviews[i].Weight
+                                </td>
+                                <td>
+                                    @Model.Reviews[i].Rate
+                                </td>
+                                <td style="white-space: pre-line">
+                                    @Model.Reviews[i].Comment
+
+                                </td>
+                                <td style="white-space: pre-line">
+                                    @if (ViewBag.Order == 0)
+                                    {
+                                        @Html.TextAreaFor(model => model.Reviews[i].Comment1, new { @class = "form-control", @rows = 6, @id = "Review_Comment_" + i })                                        
+                                        @Html.ValidationMessageFor(model => model.Reviews[i].Comment1, "", new { @class = "text-danger" })
+                                        <br />
+                                        <div>註：最多輸入300個中文字。</div>
+                                    }
+                                    else
+                                    {
+                                        @Model.Reviews[i].Comment1
+                                        @Html.HiddenFor(model => model.Reviews[i].Comment1, new { @id = "Review_Comment_" + i })
+                                    }
+                                </td>
+                            </tr>
+                        }
+
+                    </table>
+                </div>
+            </div>
+        }
+        //主管評語
+        <div class="form-group">
+            <div class="col-md-10">
+                @Html.Label("Lable2", "主管評語：")
+            </div>
+            @for (int i = 0; i < Model.Scores.Count(); i++)
+                {
+                <div class="col-md-3">
+                    @Html.HiddenFor(model => model.Scores[i].Id)
+                    @Html.HiddenFor(model => model.Scores[i].ProjectId)
+                    @Html.HiddenFor(model => model.Scores[i].EmployeeNo)
+                    @Html.HiddenFor(model => model.Scores[i].Reviewer)
+                    @Html.HiddenFor(model => model.Scores[i].Modifier, new { @Value = @User.Identity.Name })
+
+                    @if (ViewBag.Order == Model.Scores[i].OderSerial)
+                    {
+                        <p>@Model.Scores[i].ReviewName (@Model.Scores[i].Reviewer)：</p>
+                        @Html.TextAreaFor(model => model.Scores[i].Comment, new { @id = "Scores_Comment_" + i, @class = "form-control", @rows = 10 })
+                        <br />
+                        <div>註：最多輸入300個中文字。</div>
+                        @Html.ValidationMessageFor(model => model.Scores[i].Comment, "", new { @class = "text-danger" })
+                    }
+                    else
+                    {
+                        <p>@Model.Scores[i].ReviewName (@Model.Scores[i].Reviewer)：</p>
+                        @Html.TextAreaFor(model => model.Scores[i].Comment, new { @id = "Scores_Comment_" + i , @class = "form-control", @rows = 10, @readonly = "readonly" })
+                        
+                    }
+                </div>
+            }
+        </div>
+        <div class="form-group">
+            <div class="col-md-10">
+                <center>
+                    <a href="~/Manage" class="btn btn-warning">不儲存退出</a> &nbsp; &nbsp;
+                    <a href="@Url.Action("Print1", "Performance", new { projectId = Model.ProjectId, employeeNo = Model.EmployeeNo })" target="_blank" class="btn btn-default"> 列印檢視 </a>&nbsp; &nbsp;
+                    <input type="submit" name="back" value="退回" class="btn btn-default" />                    
+                    @if (ViewBag.MaxValue != ViewBag.Order)
+                    {
+                        <input type="submit" name="reviw" value="送審" class="btn btn-default" onclick="return checkData();" />
+                    }
+                    else
+                    {
+                        <input type="submit" name="approve" value="核定" class="btn btn-default" onclick="return checkData();"/>
+                    }
+                    <input type="submit" name="save" value="儲存" class="btn btn-success" onclick="return checkData1();" />
+                    @Html.HiddenFor(model => model.ProjectId)
+                    @Html.HiddenFor(model => model.EmployeeNo)
+                    @Html.HiddenFor(model => model.Reviewer)
+                    @Html.Hidden("r_rows", (int)ViewBag.ReviewRows)
+                    @Html.Hidden("s_rows", (int)ViewBag.ScoreRows)
+                </center>
+            </div>
+        </div>
+    }
+</div>
+
+
+<script type="text/javascript">
+    function checkData()
+    {
+        var r_rows = document.getElementById('r_rows').value
+
+        for (i = 0; i < r_rows; i++) {
+            if (document.getElementById('Review_Comment_' + i).value == "") {
+                alert("請輸入主管考評!");
+                document.getElementById('Review_Comment_' + i).focus();
+                return false;
+            }
+
+            var value = document.getElementById('Review_Comment_' + i).value;
+            if (value.length > 301) {
+                alert("最多輸入300個中文字。");
+                document.getElementById('Review_Comment_' + i).focus();
+                return false;
+            }
+        }
+
+        var s_rows = document.getElementById('s_rows').value
+        for (i = 0; i < s_rows; i++) {
+            if (document.getElementById('Scores_Comment_' + i).value == "") {
+                alert("請輸入評語!");
+                document.getElementById('Scores_Comment_' + i).focus();
+                return false;
+            }
+
+            var value = document.getElementById('Scores_Comment_' + i).value;
+            if (value.length > 301) {
+                alert("最多輸入300個中文字。");
+                document.getElementById('Scores_Comment_' + i).focus();
+                return false;
+            }
+        }
+        if (confirm('是否確定送審(或核定)?') == true)
+            return true;
+        else
+            return false;
+    }
+
+
+    function checkData1() {
+        var r_rows = document.getElementById('r_rows').value
+
+        for (i = 0; i < r_rows; i++) {           
+            var value = document.getElementById('Review_Comment_' + i).value;
+            if (value.length > 301) {
+                alert("最多輸入300個中文字。");
+                document.getElementById('Review_Comment_' + i).focus();
+                return false;
+            }
+        }
+
+        var s_rows = document.getElementById('s_rows').value
+        for (i = 0; i < s_rows; i++) {
+            var value = document.getElementById('Scores_Comment_' + i).value;
+            if (value.length > 301) {
+                alert("最多輸入300個中文字。");
+                document.getElementById('Scores_Comment_' + i).focus();
+                return false;
+            }
+        }       
+    }
+</script>
+
+
+
+

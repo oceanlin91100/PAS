@@ -1,0 +1,40 @@
+﻿@model IEnumerable<UniPsg.Model.PAS.ViewModels.RoleUserMappingViewModel>
+
+@{
+    ViewBag.Title = "人員角色授權清單";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<br />
+<h5><i class="fa fa-key" aria-hidden="true"> &nbsp;權限設定</i>  &nbsp;&gt;&nbsp; <a href="@Url.Action("Index","RoleUserMapping")">人員角色授權</a></h5>
+<center><h4>@ViewBag.Title</h4></center>
+<div class="form-horizontal">
+    <div align="left"><i class="fa fa-plus" aria-hidden="true"><a href="@Url.Action("Create", "RoleUserMapping")"> 人員角色授權新增 </a></i></div>
+    <table cellpadding="2" class="table" cellspacing="2" border="1">
+        <tr class="btn-primary">
+            <th> Id</th>
+            <th> 角色</th>
+            <th> 員工編號</th>            
+            <th> 狀態</th>            
+            <th> 修改時間</th>
+            <th> </th>
+        </tr>
+        @if (ViewBag.ListClients != null)
+            {
+                foreach (var item in ViewBag.ListClients)
+                {
+                <tr class="btn-xs">
+                    <td>@item.Id</td>
+                    <td>@item.RoleId</td>
+                    <td>@item.EmployeeNo</td>                    
+                    <td>@Helpers.GetStatusDisplayName(@item.Status)</td>                    
+                    <td>@item.ModifiedDate.ToString()</td>
+                    <td>
+                        <i class="fa fa-trash-o" aria-hidden="true"><a onclick="return confirm('Do you want to Delete?')" href="@Url.Action("Delete", "RoleUserMapping", new { id = item.Id })"> 刪除 </a></i>
+                        &nbsp;||&nbsp; <i class="fa fa-pencil" aria-hidden="true"><a href="@Url.Action("Edit", "RoleUserMapping",new { id = item.Id })"> 修改 </a></i>
+                        &nbsp;||&nbsp;<i class="fa fa-info" aria-hidden="true"><a href="@Url.Action("Detail", "RoleUserMapping",new { id = item.Id })"> 檢視 </a></i>
+                    </td>
+                </tr>
+            }
+        }
+    </table>
+</div>

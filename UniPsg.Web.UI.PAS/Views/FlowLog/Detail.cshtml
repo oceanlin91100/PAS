@@ -1,0 +1,58 @@
+﻿@model UniPsg.Model.PAS.ViewModels.FlowLogViewModel
+
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Detail</title>
+</head>
+<body>
+    <div>
+        <h4>FlowLogViewModel</h4>
+        <hr />
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.BeforContent)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.BeforContent)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.AfterContent)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.AfterContent)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.Creator)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.Creator)
+            </dd>
+    
+            <dt>
+                @Html.DisplayNameFor(model => model.CreatedDate)
+            </dt>
+    
+            <dd>
+                @Html.DisplayFor(model => model.CreatedDate)
+            </dd>
+    
+        </dl>
+    </div>
+    <p>
+        @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+</body>
+</html>

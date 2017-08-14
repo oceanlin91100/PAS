@@ -1,0 +1,45 @@
+﻿@model UniPsg.Model.PAS.ViewModels.AssessCategoryViewModel
+
+@{
+    ViewBag.Title = "考核類別檢視";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<br />
+<h5><i class="fa fa-cog" aria-hidden="true"> &nbsp;設定管理</i>  &nbsp;&gt;&nbsp;<a href="@Url.Action("Index","AssessCategory")">考核類別</a>  &nbsp;&gt;&nbsp; 考核類別檢視 </h5>
+<center><h4>@ViewBag.Title</h4></center>
+<div class="form-horizontal">
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Status)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Status)           
+            <br />
+            (註：0為啟用、1為停用。)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Definition)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Definition)
+        </dd>
+    </dl>
+</div>
+<div class="btn-sm">
+    @Html.DisplayNameFor(m => m.CreatedDate)@Html.DisplayFor(m => m.CreatedDate)，@Html.DisplayNameFor(m => m.Creator) @Html.DisplayFor(m => m.Creator)
+    <br />
+    @Html.DisplayNameFor(m => m.ModifiedDate)@Html.DisplayFor(m => m.ModifiedDate)，@Html.DisplayNameFor(m => m.Modifier) @Html.DisplayFor(m => m.Modifier)
+</div>
+<p>
+    <i class="fa fa-plus" aria-hidden="true">&nbsp;@Html.ActionLink("新增", "Create", "AssessCategory")</i> | 
+    <i class="fa fa-trash-o" aria-hidden="true"><a onclick="return confirm('Do you want to Delete?')" href="@Url.Action("Delete", "AssessCategory", new { id = Model.Id })"> 刪除 </a></i> | 
+    <i class="fa fa-pencil" aria-hidden="true">&nbsp;@Html.ActionLink("修改", "Edit", new { id = Model.Id }) </i>|
+    <i class="fa fa-list" aria-hidden="true">@Html.ActionLink("Back to List", "Index")</i>
+</p>

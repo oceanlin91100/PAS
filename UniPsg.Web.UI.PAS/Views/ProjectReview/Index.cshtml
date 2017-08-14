@@ -1,0 +1,64 @@
+﻿@using PagedList.Mvc;
+@model UniPsg.Web.UI.PAS.Models.ProjectReviewIndexView
+
+@{
+    ViewBag.Title = "考核自/複評清單";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<br />
+<h5><i class="fa fa-line-chart" aria-hidden="true">&nbsp;績效考核</i> &nbsp;&gt;&nbsp;<a href="@Url.Action("Index","ProjectReview")">考核自/複評</a></h5>
+<center>
+    <h4>@ViewBag.Title</h4>
+</center>
+<div class="form-horizontal">
+    <div align="left">
+        <i class="fa fa-plus" aria-hidden="true"><a href="@Url.Action("Create3","ProjectReview")">&nbsp;考核自/複評新增 </a></i>
+    </div>
+    <table cellpadding="2" class="table" cellspacing="2" border="1">
+        <tr class="bg-primary">
+            <th class="text-nowrap"> Id </th>
+            <th class="text-nowrap"> 專案代碼 </th>
+            <th class="text-nowrap"> @Html.ActionLink("員工編號", "Index", new { sortOrder = ViewBag.NameSortParm }, new { @class = "label label-primary" }) </th>
+            <th class="text-nowrap"> 評核人員編 </th>
+            <th class="text-nowrap"> 考核範圍 </th>
+            <th class="text-nowrap"> 項目代碼 </th>
+            <th class="text-nowrap"> 項目名稱 </th>
+            <th class="text-nowrap"> KPI分類代碼 </th>
+            <th class="text-nowrap"> 權重 </th>
+            <th class="text-nowrap"> 達成率 </th>
+            <th class="text-nowrap"> 狀態 </th>
+            <th class="text-nowrap"> @Html.ActionLink("修改時間", "Index", new { sortOrder = ViewBag.DateSortParm }, new { @class = "label label-primary" }) </th>
+            <th class="text-nowrap"> </th>
+        </tr>
+        @if (Model.Reviews != null)
+            {
+                foreach (var item in Model.Reviews)
+                {
+                <tr class="btn-sm">
+                    <td>@item.Id</td>
+                    <td>@item.ProjectId</td>
+                    <td>@item.EmployeeNo</td>
+                    <td>@item.Reviewer</td>                    
+                    <td>@item.ScopeId</td>
+                    <td>@item.ItemId</td>
+                    <td>@item.ItemName</td>
+                    <td>@item.KPICategoryId</td>
+                    <td>@item.Weight</td>
+                    <td>@item.Rate</td>
+                    <td>@Helpers.GetStatusDisplayName(@item.Status)</td>
+                    <td>@item.ModifiedDate.ToString()</td>
+                    <td align="center" width="15%">
+                        <i class="fa fa-trash-o" aria-hidden="true"><a onclick="return confirm('Do you want to Delete?')" href="@Url.Action("Delete3", "ProjectReview", new { id = item.Id })"> 刪除 </a></i>
+                        &nbsp;||&nbsp;
+                        <i class="fa fa-pencil" aria-hidden="true"><a href="@Url.Action("Edit3", "ProjectReview", new { id = item.Id })"> 修改 </a></i>
+                        &nbsp;|| &nbsp;
+                        <i class="fa fa-info" aria-hidden="true"><a href="@Url.Action("Detail", "ProjectReview", new { id = item.Id })"> 檢視 </a></i>
+                    </td>
+                </tr>
+            }
+        }
+    </table>
+    <div class="pager">
+        @Html.PagedListPager(Model.Reviews, page => Url.Action("Index", new { page }))
+    </div>
+</div>

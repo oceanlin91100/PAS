@@ -1,0 +1,48 @@
+﻿@using PagedList.Mvc;
+@model UniPsg.Web.UI.PAS.Models.ScopeItemIndexView
+
+@{
+    ViewBag.Title = "KPI項目清單";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<br />
+<h5><i class="fa fa-cog" aria-hidden="true"> &nbsp;設定管理</i>  &nbsp;&gt;&nbsp; <a href="@Url.Action("Index","KPIItem")">KPI項目</a></h5>
+<center><h4>@ViewBag.Title</h4></center>
+<div class="form-horizontal">
+    <div align="left"><i class="fa fa-plus" aria-hidden="true"><a href="@Url.Action("Create", "KPIItem")">&nbsp;KPI項目新增 </a></i></div>
+    <table cellpadding="2" class="table" cellspacing="2" border="1">
+        <tr class="bg-primary">            
+            <th class="text-nowrap"> Id </th>
+            <th class="text-nowrap"> KPI類別</th>
+            <th class="text-nowrap"> @Html.ActionLink("名稱", "Index", new { sortOrder = ViewBag.NameSortParm }, new { @class = "label label-primary" }) </th>
+            <th class="text-nowrap"> 比重</th>           
+            <th class="text-nowrap"> 適用對象</th>
+            <th class="text-nowrap"> 狀態</th>
+            <th class="text-nowrap"> @Html.ActionLink("修改時間", "Index", new { sortOrder = ViewBag.DateSortParm }, new { @class = "label label-primary" }) </th>
+            <th class="text-nowrap"> </th>
+        </tr>
+        @if (Model.Items != null)
+        {
+            foreach (var item in Model.Items)
+            {
+                <tr class="btn-sm">
+                    <td>@item.Id</td>
+                    <td>@item.KPICategoryName</td>
+                    <td>@item.Name</td>
+                    <td>@item.Weight</td>                    
+                    <td>@item.Groups</td>
+                    <td>@Helpers.GetStatusDisplayName(item.Status)</td>                                       
+                    <td>@item.ModifiedDate.ToString()</td>
+                    <td align="center" width="15%">
+                        <i class="fa fa-trash-o" aria-hidden="true"><a onclick="return confirm('Do you want to Delete?')" href="@Url.Action("Delete", "KPIItem", new { id = item.Id })"> 刪除 </a></i>
+                        &nbsp;||&nbsp; <i class="fa fa-pencil" aria-hidden="true"><a href="@Url.Action("Edit", "KPIItem", new { id = item.Id })"> 修改 </a></i>
+                        &nbsp;|| &nbsp;<i class="fa fa-info" aria-hidden="true"><a href="@Url.Action("Detail", "KPIItem", new { id = item.Id })"> 檢視 </a></i>
+                    </td>
+                </tr>
+            }
+        }
+    </table>
+    <div class="pager">
+        @Html.PagedListPager(Model.Items, page => Url.Action("Index", new { page }))
+    </div>
+</div>

@@ -1,0 +1,70 @@
+﻿@model UniPsg.Model.PAS.ViewModels.AssessScopeViewModel
+
+@{
+    ViewBag.Title = "考核範團修改";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<br />
+<h5><i class="fa fa-cog" aria-hidden="true"> &nbsp;設定管理</i>  &nbsp;&gt;&nbsp;<a href="@Url.Action("Index","AssessScope")">考核範團</a>  &nbsp;&gt;&nbsp; 考核範團修改 </h5>
+<center><h4>@ViewBag.Title</h4></center>
+<div class="form-horizontal">
+    <hr />
+    @using (Html.BeginForm("Edit", "AssessScope", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.Name, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.HasItem, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(m => m.HasItem, new SelectList(
+                  new List<Object>{
+                       new { value = 0 , text = "無" },
+                       new { value = 1 , text = "有" }},
+                  "value", "text"), "請選擇", new { @class = "form-control" })
+                <br />
+                註：0為無項目、1為有項目。
+                @Html.ValidationMessageFor(m => m.Status, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.Status, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(m => m.Status, new SelectList(
+                  new List<Object>{
+                       new { value = 0 , text = "啟用" },
+                       new { value = 1 , text = "停用" }},
+                  "value", "text"), "請選擇", new { @class = "form-control" })
+                <br />
+                註：0為啟用、1為停用。
+                @Html.ValidationMessageFor(m => m.Status, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.Definition, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.TextAreaFor(m => m.Definition, new { @class = "form-control", @rows = "6" })
+                @Html.ValidationMessageFor(m => m.Definition, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <a href="~/AssessScope" class="btn btn-warning">不儲存退出</a>
+                <input type="submit" value="儲存" class="btn btn-success" />
+                @Html.HiddenFor(m => m.Id)
+                @Html.HiddenFor(m => m.Modifier, new { @Value = @User.Identity.Name })
+            </div>
+        </div>
+    }
+</div>
+
+
+

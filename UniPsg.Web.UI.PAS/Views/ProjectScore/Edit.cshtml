@@ -1,0 +1,124 @@
+﻿@model UniPsg.Model.PAS.ViewModels.ProjectScoreViewModel
+@{
+    ViewBag.Title = "考核成績修改";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<br />
+<h5><i class="fa fa-line-chart" aria-hidden="true">&nbsp;績效考核</i>  &nbsp;&gt;&nbsp;<a href="@Url.Action("Index","ProjectScore")">考核成績</a>  &nbsp;&gt;&nbsp; 考核成績修改 </h5>
+<center><h4>@ViewBag.Title</h4></center>
+<div class="form-horizontal">
+    <hr />
+    @using (Html.BeginForm("Edit", "ProjectScore", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.ProjectId, new { @class = "control-label col-md-2" })
+            <div class="col-md-3">
+                @Html.TextBoxFor(m => m.ProjectId, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.ProjectId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.EmployeeNo, new { @class = "control-label col-md-2" })
+            <div class="col-md-3">
+                @Html.TextBoxFor(m => m.EmployeeNo, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.EmployeeNo, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.Reviewer, new { @class = "control-label col-md-2" })
+            <div class="col-md-3">
+                @Html.TextBoxFor(m => m.Reviewer, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Reviewer, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.KPIScore, new { @class = "control-label col-md-2" })
+            <div class="col-md-3">
+                @Html.TextBoxFor(m => m.KPIScore, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.KPIScore, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.CoreScore, new { @class = "control-label col-md-2" })
+            <div class="col-md-3">
+                @Html.TextBoxFor(m => m.CoreScore, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.CoreScore, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.ManageScore, new { @class = "control-label col-md-2" })
+            <div class="col-md-3">
+                @Html.TextBoxFor(m => m.ManageScore, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.ManageScore, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.BPScore, new { @class = "control-label col-md-2" })
+            <div class="col-md-3">
+                @Html.TextBoxFor(m => m.BPScore, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.BPScore, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.TotalScore, new { @class = "control-label col-md-2" })
+            <div class="col-md-3">
+                @Html.TextBoxFor(m => m.TotalScore, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.TotalScore, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.RankId, new { @class = "control-label col-md-2" })
+            <div class="col-md-3">
+                @Html.TextBoxFor(m => m.RankId, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.RankId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.DevlopComment, new { @class = "control-label col-md-2" })
+            <div class="col-md-3">
+                @Html.TextAreaFor(m => m.DevlopComment, new { @class = "form-control", @rows = "6", @Value = "" })
+                @Html.ValidationMessageFor(m => m.DevlopComment, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.Comment, new { @class = "control-label col-md-2" })
+            <div class="col-md-3">
+                @Html.TextAreaFor(m => m.Comment, new { @class = "form-control", @rows = "6", @Value = "" })
+                @Html.ValidationMessageFor(m => m.Comment, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.OderSerial, new { @class = "control-label col-md-2" })
+            <div class="col-md-3">
+                @Html.TextBoxFor(m => m.OderSerial, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.OderSerial, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.Status, new { @class = "control-label col-md-2" })
+            <div class="col-md-3">
+                @Html.DropDownListFor(m => m.Status, new SelectList(
+                  new List<Object>{
+                       new { value = 0 , text = "啟用" },
+                       new { value = 1 , text = "停用" }},
+                  "value", "text"), "請選擇", new { @class = "form-control" })
+                <br />
+                註：0為啟用、1為停用。
+                @Html.ValidationMessageFor(m => m.Status, "", new { @class = "text-danger" })
+            </div>
+        </div>        
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <a href="~/ProjectScore" class="btn btn-warning">不儲存退出</a>
+                <input type="submit" value="儲存" class="btn btn-success" />
+                @Html.HiddenFor(m => m.Id)
+                @Html.HiddenFor(m => m.Modifier, new { @Value = @User.Identity.Name })
+            </div>
+        </div>
+    }
+</div>
+
+

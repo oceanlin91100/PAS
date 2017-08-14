@@ -1,0 +1,84 @@
+﻿@model UniPsg.Model.PAS.ViewModels.AssessFormViewModel
+
+@{
+    ViewBag.Title = "考核表檢視";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<br />
+<h5><i class="fa fa-cog" aria-hidden="true"> &nbsp;設定管理</i>  &nbsp;&gt;&nbsp; <a href="@Url.Action("Index","AssessForm")">考核表</a> &nbsp;&gt;&nbsp; 考核表檢視 </h5>
+<center><h4>@ViewBag.Title</h4></center>
+
+<div class="form-horizontal">
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(m => m.Name)
+        </dt>
+        <dd>
+            @Html.DisplayFor(m => m.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(m => m.CategoryId)
+        </dt>
+        <dd>
+            @Html.DisplayFor(m => m.CategoryId)、@Html.DisplayFor(m => m.CategoryName)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(m => m.Groups)
+        </dt>
+        <dd>
+            @Html.DisplayFor(m => m.Groups)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(m => m.Items)
+        </dt>
+        <dd>
+            @if (ViewBag.Scopes.Count != 0)
+            {
+                <table class="table" border="1">
+                    <tr class="btn-sm">
+                        <th>項目</th>
+                        <th>比重(%)</th>
+                    </tr>
+                    @foreach (var item in ViewBag.Scopes)
+                {
+                        <tr class="btn-sm">
+                            <td>@item.ScopeName</td>
+                            <td>@item.Weight</td>                           
+                        </tr>
+                    }
+                </table>
+            }
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(m => m.Status)
+        </dt>
+        <dd>
+            @Html.DisplayFor(m => @m.Status)
+            <br />
+            (註：0為啟用、1為停用。)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(m => m.Definition)
+        </dt>
+        <dd>
+            @Html.DisplayFor(m => m.Definition)
+        </dd>
+    </dl>
+</div>
+<div class="btn-sm">
+    @Html.DisplayNameFor(m => m.CreatedDate)@Html.DisplayFor(m => m.CreatedDate)，@Html.DisplayNameFor(m => m.Creator) @Html.DisplayFor(m => m.Creator)
+    <br />
+    @Html.DisplayNameFor(m => m.ModifiedDate)@Html.DisplayFor(m => m.ModifiedDate)，@Html.DisplayNameFor(m => m.Modifier) @Html.DisplayFor(m => m.Modifier)
+</div>
+<p>
+    <i class="fa fa-plus" aria-hidden="true">&nbsp;@Html.ActionLink("新增", "Create", "AssessForm")</i> |
+    <i class="fa fa-trash-o" aria-hidden="true"><a onclick="return confirm('Do you want to Delete?')" href="@Url.Action("Delete", "AssessForm", new { id = Model.Id })"> 刪除 </a></i> |
+    <i class="fa fa-pencil" aria-hidden="true">&nbsp;@Html.ActionLink("修改", "Edit", new { id = Model.Id }) </i>|
+    <i class="fa fa-list" aria-hidden="true">@Html.ActionLink("Back to List", "Index")</i>
+</p>

@@ -1,0 +1,136 @@
+﻿@using UniPsg.Web.UI.PAS.Utility.Enums
+@model UniPsg.Model.PAS.ViewModels.ReviewerUpdateViewModel
+
+@{
+    ViewBag.Title = "員工自評維護";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<br />
+<h5>績效考核  &nbsp;&gt;&nbsp; <a href="@Url.Action("Index","Review")">員工自評</a> &nbsp;&gt;&nbsp; 員工自評維護 </h5>
+@*<center><h4>@ViewBag.Title</h4></center>*@
+<div class="form-horizontal">
+    <hr />
+    @using (Html.BeginForm("Update14", "Review", FormMethod.Post))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            <div class="col-md-10">
+                <center><h4>@Model.ProjectName &nbsp; 【適用對象：@Model.GroupName】</h4></center>
+                <center><h5>考核期間：@Helpers.GetShowDate(Model.ViewStarDate)  &nbsp;&nbsp;至&nbsp;&nbsp;@Helpers.GetShowDate(Model.ViewEndDate) </h5></center>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-10">
+                <table cellpadding="2" class="table" cellspacing="2" border="1">
+                    <tr class="btn-default">
+                        <th class="text-nowrap"> 公司別 </th>
+                        <th class="text-nowrap"> 姓名 </th>
+                        <th class="text-nowrap"> 職稱 </th>
+                        <th class="text-nowrap"> 到職日 </th>
+                    </tr>
+                    <tr class="btn-xs">
+                        <td>@Model.BranchName</td>
+                        <td>@Model.EmployeeName</td>
+                        <td>@Model.JobCapName</td>
+                        <td>@Helpers.GetShowDate(Model.StartDate)</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-10">
+                @Html.Label("Lable1", "I、獎懲狀況之加、減分：")
+            </div>
+            <div class="col-md-10">
+                <table cellpadding="2" class="table" cellspacing="2" border="1">
+                    <tr class="btn-default">
+                        <th class="text-nowrap"> 獎 </th>
+                        <th class="text-nowrap"> 懲 </th>
+                        <th class="text-nowrap"> 加減分 </th>
+                    </tr>
+                    <tr class="btn-xs">
+                        <td>大功&nbsp;0&nbsp;次&nbsp;&nbsp;小功&nbsp;0&nbsp;次&nbsp;&nbsp;嘉獎&nbsp;0&nbsp;次</td>
+                        <td>大過&nbsp;0&nbsp;次&nbsp;&nbsp;小過&nbsp;0&nbsp;次&nbsp;&nbsp;警告&nbsp;0&nbsp;次</td>
+                        <td>0.00</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        if (Model.Reviews != null)
+        {
+            <div class="form-group">
+                <div class="col-md-10">
+                    @Html.Label("Lable2", "II、工作目標達成狀況評核(KPI)")
+                </div>
+                <div class="col-md-10">
+                    <table cellpadding="2" class="table" cellspacing="2" border="1">
+                        <tr class="btn-default">
+                            <th class="text-nowrap"> 分類 </th>
+                            <th class="text-nowrap"> 項目 </th>
+                            <th class="text-nowrap"> 比重<br />(%)</th>
+                            <th class="text-nowrap"> 得分</th>
+                            <th class="text-nowrap"> 說明 </th>
+                        </tr>
+                        @for (int i = 0; i < Model.Reviews.Count(); i++)
+                        {
+                            <tr class="btn-xs">
+                                <td>
+                                    @Html.HiddenFor(model => model.Reviews[i].Id)
+                                    @Html.HiddenFor(model => model.Reviews[i].ProjectId)
+                                    @Html.HiddenFor(model => model.Reviews[i].EmployeeNo)
+                                    @Html.HiddenFor(model => model.Reviews[i].Reviewer)
+                                    @Html.HiddenFor(model => model.Reviews[i].ScopeId)
+                                    @Html.HiddenFor(model => model.Reviews[i].KPICategoryId)
+                                    @Html.HiddenFor(model => model.Reviews[i].KPICategoryName)
+                                    @Model.Reviews[i].KPICategoryName
+                                </td>
+                                <td>
+                                    @Html.HiddenFor(model => model.Reviews[i].ItemId)
+                                    @Html.HiddenFor(model => model.Reviews[i].ItemName)
+                                    <u>@Model.Reviews[i].ItemName</u>
+                                    <br />
+                                    @Model.Reviews[i].Definition
+                                </td>
+                                <td>
+                                    @Html.HiddenFor(model => model.Reviews[i].Weight)
+                                    @Model.Reviews[i].Weight
+                                </td>
+                                <td>
+                                    @Html.TextBoxFor(model => model.Reviews[i].Rate, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.Reviews[i].Rate, "", new { @class = "text-danger" })
+                                    @Html.HiddenFor(model => model.Reviews[i].Score)
+                                </td>
+                                <td>
+                                    @Html.TextAreaFor(model => model.Reviews[i].Comment, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.Reviews[i].Comment, "", new { @class = "text-danger" })
+                                    @Html.HiddenFor(model => model.Reviews[i].Creator)
+                                    @Html.HiddenFor(model => model.Reviews[i].Modifier)
+
+                                </td>
+                            </tr>
+                        }
+
+                    </table>
+                </div>
+            </div>
+        }
+        <div class="form-group">
+            <div class="col-md-10">
+                <center>
+                    <input type="submit" name="save" value="儲存" class="btn btn-success" />
+                    <input type="submit" name="reviw" value="送審" class="btn btn-default" />
+                    @Html.HiddenFor(model => model.ProjectId)
+                    @Html.HiddenFor(model => model.EmployeeNo)
+                    @Html.HiddenFor(model => model.Reviewer)
+                    <a href="/Review" class="btn btn-warning">不儲存退出</a>
+                </center>
+            </div>
+        </div>
+    }
+</div>
+
+
+
+

@@ -1,0 +1,72 @@
+﻿@using System.Web.Mvc;
+@using System.Text;
+@functions {
+
+    public static string GetShowDate(int value)
+    {
+
+        if (value.ToString().Length == 8)
+        {
+            string result = value.ToString().Substring(0,4) + "/" + value.ToString().Substring(4,2) + "/" + value.ToString().Substring(6,2);
+            return result;
+        }
+        if (value.ToString().Length == 7)
+        {
+            string result = value.ToString().Substring(0, 3) + "/" + value.ToString().Substring(3, 2) + "/" + value.ToString().Substring(5, 2);
+            return result;
+        }
+        if (value.ToString().Length == 6)
+        {
+            string result = value.ToString().Substring(0, 2) + "/" + value.ToString().Substring(2, 2) + "/" + value.ToString().Substring(4, 2);
+            return result;
+        }
+        else
+            return value.ToString();
+    }
+
+    public static string GetShowDetail(string value)
+    {
+        int count = value.Length;
+        if (value.Length >= 15)
+        {
+            string result = value.ToString().Substring(0, 15) + "...";
+            return result;
+        }
+        else
+            return value;
+    }
+
+    public static string GetStatusDisplayName(int value)
+    {
+        if (value == 1)
+            return "停用";
+        
+        if (value == 0)
+            return "啟用";
+
+        if (value == 2)
+            return "結案";
+
+        return "";
+    }
+
+    public static string GetYesNo(int value)
+    {
+        if (value == 1)
+        {
+            return "是";
+        }
+        else
+            return "否";
+    }
+
+    public static bool ConvertToBool(int value)
+    {
+        if (value == 0)
+            return true;
+        else
+            return false;
+
+    }
+
+}
