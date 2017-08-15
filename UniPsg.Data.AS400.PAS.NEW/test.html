@@ -1,0 +1,38 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Basic DataGrid - jQuery EasyUI Demo</title>
+    <link href="Content/themes/icon.css" rel="stylesheet" />
+    <link href="Content/themes/default/easyui.css" rel="stylesheet" />
+    <script src="Scripts/jquery-1.11.3.min.js"></script>
+    <script src="Scripts/jquery.easyui-1.4.5.min.js"></script>
+</head>
+<body>
+    <table id="dg"></table>
+    <script>
+        function getdata() {
+            var result =$.ajax({
+                type: 'GET',
+                url: 'http://localhost:26377/api/Test?table=HASDLIB.ASSPSCORE',
+                contentType: 'text/plain',
+                xhrFields: {
+                    withCredentials: true
+                }
+            });
+            return result;
+        };
+
+
+        $('#dg').datagrid({
+            url: getdata(),
+            columns: [[
+                { field: 'PSID' },
+                { field: 'APRID' },
+                { field: 'EMPNO' }
+            ]]
+        });
+    </script>
+</body>
+</html>

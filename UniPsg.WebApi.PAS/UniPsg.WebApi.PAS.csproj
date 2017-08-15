@@ -86,6 +86,9 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Web.Cors, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Cors.5.2.3\lib\net45\System.Web.Cors.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -93,6 +96,9 @@
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Web" />
     <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Http.Cors, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Cors.5.2.3\lib\net45\System.Web.Http.Cors.dll</HintPath>
+    </Reference>
     <Reference Include="System.Web.Routing" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Configuration" />
@@ -227,6 +233,7 @@
     <Compile Include="API\RoleMenuMappingController.cs" />
     <Compile Include="API\RoleUserMappingController.cs" />
     <Compile Include="API\ScopeItemController.cs" />
+    <Compile Include="API\TestController.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\IdentityConfig.cs" />
@@ -352,6 +359,10 @@
     <ProjectReference Include="..\UniPsg.Business.PAS\UniPsg.Business.PAS.csproj">
       <Project>{03598729-b7ab-4376-8dc5-d4ea2d03358d}</Project>
       <Name>UniPsg.Business.PAS</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\UniPsg.Data.AS400.PAS.NEW\UniPsg.Data.AS400.PAS.NEW.csproj">
+      <Project>{bb3af091-239c-40d0-9e56-57e091d2bd6b}</Project>
+      <Name>UniPsg.Data.AS400.PAS.NEW</Name>
     </ProjectReference>
     <ProjectReference Include="..\UniPsg.Model.PAS\UniPsg.Model.PAS.csproj">
       <Project>{f87ea685-6215-4367-b193-c88a95710967}</Project>

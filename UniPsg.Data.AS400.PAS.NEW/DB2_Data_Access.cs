@@ -5,17 +5,20 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.OleDb;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace UniPsg.Data.AS400.PAS.NEW
 {
-    class DB2_Data_Access
+    public class DB2_Data_Access
     {
+
         public String Get(string QueryString)
         {
             var ConnectionString = "Provider=IBMDA400;User ID=HASCMN;Password=HAS2017598;Data Source=PSCTST;Transport Product=Client Access;SSL=DEFAULT;";
-            string JsonResult = string.Empty;
+            JArray Total_Result = new JArray();
+
             using (var connection = new OleDbConnection(ConnectionString))
             {
 
@@ -33,7 +36,7 @@ namespace UniPsg.Data.AS400.PAS.NEW
                     object[] Row_Value = new object[Field_Count];
                     string[] Field_Name = new string[Field_Count];
                     Type[] Field_Type = new Type[Field_Count];
-                    JArray Total_Result = new JArray();
+                    
 
                     for (int i = 0; i < Field_Count; i++)
                     {
@@ -69,15 +72,14 @@ namespace UniPsg.Data.AS400.PAS.NEW
 
 
                     }
-
-                    JProperty result = new JProperty("Result", Total_Result);
-                    JsonResult = JsonConvert.SerializeObject(result);
+                    
+                    
                 }
 
             }
+            
 
-
-            return JsonResult;
+            return JsonConvert.SerializeObject(Total_Result); 
         }
 
         public String Select_Table(string table)

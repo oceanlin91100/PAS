@@ -1,0 +1,61 @@
+﻿<br />
+<center><h4>考核專案清單</h4></center>
+<div class="form-horizontal">
+    <table id="dg">
+    </table>
+
+
+    </div>
+
+    <script>
+       async function getdata(table) {
+            var result = $.ajax({
+                type: 'GET',
+                url: 'http://localhost:26377/api/Test?table=HASDLIB.' + table,
+                contentType: 'json/text',
+                success: function (data) { return data; }
+                            });
+            return await result;
+        };
+
+        $(document).ready(function () {
+            var ASSPAGROUPresult = getdata("ASSPAGROUP");
+            console.log(ASSPAGROUPresult);
+        });
+
+        $('#dg').datagrid({
+            method: "GET",
+            url: 'http://localhost:26377/api/Test?table=HASDLIB.ASSPAPRJ',
+            columns: [[
+                { field: 'APRID', title: "Id" },
+                { field: 'APRNAME', title: "名稱" },
+                {
+                    field: 'VSDA', title: "考核檢視期間",
+                    formatter: function (value, row, index) {
+                        var result = row.VSDA + "~" + row.VEDA;
+                        return result;
+                    }
+                },
+                {
+                    field: 'FRDA', title: "考核作業期間",
+                    formatter: function (value, row, index) {
+                        var result = row.FRDA + "~" + row.DLDA;
+                        return result;
+                    }
+                },
+                { field: 'AYEAR', title: "年度" },
+                {
+                    field: 'GROUPS', title: "受考核對象",
+                    //formatter: function (value, row, index) {
+                    //    for (var i = 0; i < ASSPAGROUPresult; i++) {
+
+                    //    }
+                    //    var result = row.FRDA + "~" + row.DLDA;
+                    //    return result;
+                    //}
+                },
+                //{ field: 'PSID', title: "狀態" },
+                //{ field: 'PSID', title: "修改時間" },
+            ]]
+        });
+    </script>
