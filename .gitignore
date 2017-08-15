@@ -240,3 +240,4 @@ ModelManifest.xml
 
 # FAKE - F# Make
 .fake/
+/UniPsg.Data.AS400.PAS.NEW/SQLCommands.cs

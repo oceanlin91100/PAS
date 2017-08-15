@@ -28,14 +28,15 @@ namespace UniPsg.Data.AS400.PAS
                     while (reader.Read())
                     {
                         ASSPACAT item = new ASSPACAT();
-                        item.ACID = Convert.ToInt32(reader["ACID"]);
-                        item.ACNAME = Convert.ToString(reader["ACNAME"]);
-                        item.ASTATUS = Convert.ToInt32(reader["ASTATUS"]);
-                        item.DEF = Convert.ToString(reader["DEF"]);
-                        item.CTOR = Convert.ToString(reader["CTOR"]);
-                        item.CTDA = Convert.ToString(reader["CTDA"]);
-                        item.MDOR = Convert.ToString(reader["MDOR"]);
-                        item.MDDA = Convert.ToString(reader["MDDA"]);
+                        item.ACID = reader.GetInt32(0);
+                        //item.ACID = Convert.ToInt32(reader["ACID"]);
+                        //item.ACNAME = Convert.ToString(reader["ACNAME"]);
+                        //item.ASTATUS = Convert.ToInt32(reader["ASTATUS"]);
+                        //item.DEF = Convert.ToString(reader["DEF"]);
+                        //item.CTOR = Convert.ToString(reader["CTOR"]);
+                        //item.CTDA = Convert.ToString(reader["CTDA"]);
+                        //item.MDOR = Convert.ToString(reader["MDOR"]);
+                        //item.MDDA = Convert.ToString(reader["MDDA"]);
                         lists.Add(item);
                     }
                 }
